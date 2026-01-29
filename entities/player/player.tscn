@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://basa8xgye5rjx"]
+
+[ext_resource type="Script" uid="uid://c55pledto8t47" path="res://entities/player/player.gd" id="1_abrql"]
+[ext_resource type="Texture2D" uid="uid://xwhdvv382kf8" path="res://assets/slime.png" id="1_symyc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_symyc"]
+size = Vector2(16, 10)
+
+[node name="Player" type="CharacterBody2D" unique_id=1060036178]
+collision_layer = 2
+script = ExtResource("1_abrql")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1408978296]
+position = Vector2(0, -7)
+texture = ExtResource("1_symyc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1647392745]
+position = Vector2(0, -5)
+shape = SubResource("RectangleShape2D_symyc")
+
+[node name="PlayerState" type="Node2D" parent="." unique_id=1122111957]
+
+[node name="IdleState" type="Node2D" parent="PlayerState" unique_id=1956942432]
+
+[node name="RunState" type="Node2D" parent="PlayerState" unique_id=941558421]
+
+[node name="GrappleState" type="Node2D" parent="PlayerState" unique_id=478575304]
+
+[node name="JumpState" type="Node2D" parent="PlayerState" unique_id=1869468430]

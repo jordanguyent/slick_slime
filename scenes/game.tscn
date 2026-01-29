@@ -1,5 +1,0 @@
-[gd_scene format=3 uid="uid://d1bbqsxlo7467"]
-
-[node name="Game" type="Node2D" unique_id=1437649669]
-
-[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=770190966]
