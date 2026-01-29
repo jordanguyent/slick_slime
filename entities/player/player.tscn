@@ -2,6 +2,11 @@
 
 [ext_resource type="Script" uid="uid://c55pledto8t47" path="res://entities/player/player.gd" id="1_abrql"]
 [ext_resource type="Texture2D" uid="uid://xwhdvv382kf8" path="res://assets/slime.png" id="1_symyc"]
+[ext_resource type="Script" uid="uid://qm3xwjfr0nqp" path="res://entities/state_controller.gd" id="3_sglur"]
+[ext_resource type="Script" uid="uid://d353wcjt3em60" path="res://entities/player/states/move_state.gd" id="4_fkugw"]
+[ext_resource type="Script" uid="uid://bjwlu86k0hir0" path="res://entities/player/states/idle_state.gd" id="4_qiwj3"]
+[ext_resource type="Script" uid="uid://q5ltedhrnfkf" path="res://entities/player/states/grapple_state.gd" id="5_8fjmc"]
+[ext_resource type="Script" uid="uid://b4cmdxmva7sxy" path="res://entities/player/states/air_state.gd" id="6_8fjmc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_symyc"]
 size = Vector2(16, 10)
@@ -9,6 +14,8 @@ size = Vector2(16, 10)
 [node name="Player" type="CharacterBody2D" unique_id=1060036178]
 collision_layer = 2
 script = ExtResource("1_abrql")
+ACCELERATION = 100000.0
+FRICTION = 5000.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1408978296]
 position = Vector2(0, -7)
@@ -19,11 +26,17 @@ position = Vector2(0, -5)
 shape = SubResource("RectangleShape2D_symyc")
 
 [node name="PlayerState" type="Node2D" parent="." unique_id=1122111957]
+script = ExtResource("3_sglur")
+initial_state = NodePath("MoveState")
 
-[node name="IdleState" type="Node2D" parent="PlayerState" unique_id=1956942432]
+[node name="IdleState" type="Node2D" parent="PlayerState" unique_id=1761205398]
+script = ExtResource("4_qiwj3")
 
-[node name="RunState" type="Node2D" parent="PlayerState" unique_id=941558421]
+[node name="MoveState" type="Node2D" parent="PlayerState" unique_id=1956942432]
+script = ExtResource("4_fkugw")
 
 [node name="GrappleState" type="Node2D" parent="PlayerState" unique_id=478575304]
+script = ExtResource("5_8fjmc")
 
-[node name="JumpState" type="Node2D" parent="PlayerState" unique_id=1869468430]
+[node name="AirState" type="Node2D" parent="PlayerState" unique_id=1869468430]
+script = ExtResource("6_8fjmc")

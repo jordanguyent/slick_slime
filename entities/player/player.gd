@@ -12,3 +12,5 @@ extends CharacterBody2D
 @export var grapple_pull_strength: float = 500.0
 @export var grapple_max_speed: float = 800.0
 @export var grapple_swing_friction: float = 0.98
+
+# SHould basic movement be implmented here. 
