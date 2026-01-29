@@ -32,3 +32,4 @@ position = Vector2(32, 152)
 
 [node name="MainCamera" type="Camera2D" parent="." unique_id=1169225665]
 position = Vector2(160, 90)
+process_callback = 0

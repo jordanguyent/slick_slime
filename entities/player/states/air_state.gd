@@ -2,7 +2,7 @@ extends State
 
 func enter(msg := {}):
 	if msg.has("do_jump"):
-		player.velocity.y = player.JUMP_VELOCITY
+		player.velocity.y = player.max_jump_velocity
 
 func physics_update(delta: float):
 	
@@ -14,17 +14,33 @@ func physics_update(delta: float):
 			player.ACCELERATION * delta
 		)
 	else:
-		player.velocity.x = move_toward(player.velocity.x, 0, player.FRICTION * delta)
+		player.velocity.x = move_toward(
+			player.velocity.x, 
+			0, 
+			player.FRICTION * delta
+		)
 
 	player.velocity.y += player.GRAVITY * delta
+
+	var jump_released = Input.is_action_just_released("player_jump")
+	var not_holding_jump = !Input.is_action_pressed("player_jump")
+
+	if (jump_released or not_holding_jump):
+		if player.velocity.y < player.min_jump_velocity:
+			player.velocity.y = player.min_jump_velocity
 	
+	# When player is falling
 	if player.velocity.y > player.TERMINAL_VELOCITY:
 		player.velocity.y = player.TERMINAL_VELOCITY
 
 	player.move_and_slide()
 
 	if player.is_on_floor():
-		if is_equal_approx(player.velocity.x, 0):
-			state_machine.transition_to("IdleState")
+		if player.jump_buffer_timer > 0:
+			player.jump_buffer_timer = 0
+			state_machine.transition_to("AirState", {"do_jump": true})
 		else:
-			state_machine.transition_to("MoveState")
+			if is_equal_approx(player.velocity.x, 0):
+				state_machine.transition_to("IdleState")
+			else:
+				state_machine.transition_to("MoveState")

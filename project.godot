@@ -57,7 +57,9 @@ player_jump={
 
 [physics]
 
+common/physics_jitter_fix=1.0
 3d/physics_engine="Jolt Physics"
+common/physics_interpolation=true
 
 [rendering]
 
