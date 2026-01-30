@@ -2,6 +2,7 @@ extends State
 
 func enter(_msg := {}):
 	player.velocity.x = 0
+	player.GRAPPLE_COUNT = 1
 
 func physics_update(_delta: float):
 

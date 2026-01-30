@@ -6,19 +6,11 @@ var target_point: Vector2
 func enter(msg := {}):
     if msg.has("point"):
         target_point = msg.point
-        # Make the rope visible
-        if player.has_node("Line2D"):
-            player.get_node("Line2D").visible = true
+        player.active_grapple_point = msg.point # Pushing the data to the player
     else:
         state_machine.transition_to("AirState")
 
 func physics_update(delta: float):
-    if player.has_node("Line2D"):
-        var line = player.get_node("Line2D")
-        line.visible = true
-        line.clear_points() 
-        line.add_point(player.global_position)
-        line.add_point(target_point)
 
     # Movement Logic
     var direction = (target_point - player.global_position).normalized()
@@ -40,9 +32,6 @@ func physics_update(delta: float):
         state_machine.transition_to("AirState")
 
 func exit():
-    # Hide rope
-    if player.has_node("Line2D"):
-        player.get_node("Line2D").visible = false
-        
+    player.active_grapple_point = null # Clear it when the grapple ends
     # Optional: Give a 10% speed boost upon release to reward the timing
     player.velocity *= 1.1

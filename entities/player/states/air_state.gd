@@ -3,6 +3,14 @@ extends State
 func enter(msg := {}):
 	if msg.has("do_jump"):
 		player.velocity.y = player.max_jump_velocity
+		if abs(player.velocity.x) > player.SPEED:
+			var diff = abs(player.velocity.x) - player.SPEED
+			var new_speed = player.SPEED + diff/2
+			if sign(player.velocity.x) > 0:
+				player.velocity.x = new_speed
+			elif sign(player.velocity.x) < 0:
+				player.velocity.x = new_speed * -1
+				
 
 func physics_update(delta: float):
 	

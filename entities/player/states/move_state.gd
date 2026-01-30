@@ -2,6 +2,7 @@ extends State
 
 func enter(_msg := {}) -> void:
 	player.coyote_timer = null
+	player.GRAPPLE_COUNT = 1
 
 func physics_update(delta: float):
 	var was_on_floor: bool = player.is_on_floor()
