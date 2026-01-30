@@ -4,6 +4,8 @@ func enter(_msg := {}):
 	player.velocity.x = 0
 
 func physics_update(_delta: float):
+
+	# State Transitions
 	if not player.is_on_floor():
 		state_machine.transition_to("AirState")
 		return

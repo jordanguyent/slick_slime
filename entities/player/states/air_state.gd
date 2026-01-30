@@ -6,6 +6,7 @@ func enter(msg := {}):
 
 func physics_update(delta: float):
 	
+	# Horizontal Movement
 	var input_dir = Input.get_axis("player_left", "player_right")
 	if input_dir != 0:
 		if abs(player.velocity.x) < player.SPEED or sign(input_dir) != sign(player.velocity.x):
@@ -15,7 +16,6 @@ func physics_update(delta: float):
 				player.ACCELERATION * delta
 			)
 	else:
-		# Use a much lower FRICTION in the air so we glide
 		player.velocity.x = move_toward(player.velocity.x, 0, (player.FRICTION * 0.1) * delta)
 
 	player.velocity.y += player.GRAVITY * delta
@@ -33,6 +33,7 @@ func physics_update(delta: float):
 
 	player.move_and_slide()
 
+	# State Transitions
 	if player.is_on_floor():
 		if player.jump_buffer_timer > 0:
 			player.jump_buffer_timer = 0
