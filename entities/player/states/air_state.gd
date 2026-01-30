@@ -8,17 +8,15 @@ func physics_update(delta: float):
 	
 	var input_dir = Input.get_axis("player_left", "player_right")
 	if input_dir != 0:
-		player.velocity.x = move_toward(
-			player.velocity.x, 
-			input_dir * player.SPEED, 
-			player.ACCELERATION * delta
-		)
+		if abs(player.velocity.x) < player.SPEED or sign(input_dir) != sign(player.velocity.x):
+			player.velocity.x = move_toward(
+				player.velocity.x, 
+				input_dir * player.SPEED, 
+				player.ACCELERATION * delta
+			)
 	else:
-		player.velocity.x = move_toward(
-			player.velocity.x, 
-			0, 
-			player.FRICTION * delta
-		)
+		# Use a much lower FRICTION in the air so we glide
+		player.velocity.x = move_toward(player.velocity.x, 0, (player.FRICTION * 0.1) * delta)
 
 	player.velocity.y += player.GRAVITY * delta
 
