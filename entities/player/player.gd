@@ -8,7 +8,7 @@ extends CharacterBody2D
 @export var TERMINAL_VELOCITY = 200.0
 @export var JUMP_HEIGHT_MAX: float = 40.0
 @export var JUMP_HEIGHT_MIN: float = 16.0
-@export var JUMP_BUFFER_TIME: float = 0.2 
+@export var JUMP_BUFFER_TIME: float = 0.15
 @export var COYOTE_DURATION: float = 0.15 # Duration in seconds
 
 @export_group("Grapple Settings")
