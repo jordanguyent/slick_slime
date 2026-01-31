@@ -13,11 +13,15 @@ extends CharacterBody2D
 
 @export_group("Grapple Settings")
 @export var GRAPPLE_SPEED: float = 225.0
-@export var GRAPPLE_ACCEL: float = 2500.0
+@export var GRAPPLE_ACCEL: float = 1500.0
 @export var GRAPPLE_RANGE: float = 100.0
 @export var GRAPPLE_COUNT: int = 1
 @onready var grapple_cast: RayCast2D = $GrappleCast # Make sure to add this node!
 @onready var state_machine = $PlayerState  
+
+@export_group("Slime Settings")
+@export var SLIME_COUNT: int = 1
+@export var SLIME_SPEED: float = 500.0
 
 # Calculate the jump velocity
 var max_jump_velocity = -sqrt(2 * GRAVITY * JUMP_HEIGHT_MAX)
@@ -32,8 +36,12 @@ var active_grapple_point = null
 func _physics_process(delta: float) -> void:
 	_handle_jump_buffer(delta)
 	_update_grapple_preview()
+	# wondering if the grapple should be more link a bungee that slings
+	# the slime, rather than pulls
+	# to achieve this feeling, i think the acceleration needs to be more drastic
+	# and then 
 	_handle_grapple_input()
-
+	_handle_slime_input()
 	
 func _handle_jump_buffer(delta: float) -> void:
 	if jump_buffer_timer > 0:
@@ -62,6 +70,13 @@ func _handle_grapple_input() -> void:
 			var point = grapple_cast.get_collision_point()
 			GRAPPLE_COUNT -= 1
 			state_machine.transition_to("GrappleState", {"point": point})
+			
+func _handle_slime_input() -> void:
+	# fire a shot toward mouse
+	# collides with tileset
+	# generate an area2D where if player is in it, then player slides and movement resets. 
+	if Input.is_action_just_pressed("player_slime") and SLIME_COUNT > 0:
+		pass
 			
 func _draw() -> void:
 	# 1. Reset the coordinate system so we draw in "World Space"

@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://c667d4lobnwxr"]
+
+[ext_resource type="Script" uid="uid://b3kddjvnoeqhl" path="res://entities/player/slime_projectile.gd" id="1_vflwv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_17lhe"]
+bg_color = Color(0, 0.7137255, 0.28235295, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.8, 1, 0.8, 0.75686276)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_17lhe"]
+radius = 5.0
+
+[node name="SlimeProjectile" type="Node2D" unique_id=148536185]
+script = ExtResource("1_vflwv")
+
+[node name="Panel" type="Panel" parent="." unique_id=1169174283]
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_17lhe")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1550253557]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1757698905]
+shape = SubResource("CircleShape2D_17lhe")
