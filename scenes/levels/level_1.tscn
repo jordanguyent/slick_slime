@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://bolwwrpdncn1v" path="res://assets/temp.png" id="1_014kd"]
 [ext_resource type="Script" uid="uid://c0ql6m53vfvs7" path="res://scenes/levels/level_1.gd" id="1_bswci"]
+[ext_resource type="Script" uid="uid://ct3jipcs8t3es" path="res://scenes/levels/level_ui.gd" id="2_6761a"]
 [ext_resource type="Script" uid="uid://bc6fylaqkmax8" path="res://entities/main_camera.gd" id="2_x42e6"]
 [ext_resource type="PackedScene" uid="uid://basa8xgye5rjx" path="res://entities/player/player.tscn" id="4_x42e6"]
 
@@ -19,6 +20,27 @@ sources/0 = SubResource("TileSetAtlasSource_yqjtg")
 
 [node name="Level1" type="Node2D" unique_id=1437649669]
 script = ExtResource("1_bswci")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=139656175]
+script = ExtResource("2_6761a")
+
+[node name="Control" type="Control" parent="CanvasLayer" unique_id=1641341318]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control" unique_id=1581432578]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/Control/MarginContainer" unique_id=1394076443]
+layout_mode = 2
+theme_override_constants/outline_size = 1
+bbcode_enabled = true
 
 [node name="MainCamera" type="Camera2D" parent="." unique_id=1169225665]
 position = Vector2(160, 90)
