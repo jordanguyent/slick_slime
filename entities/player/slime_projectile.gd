@@ -1,19 +1,33 @@
-extends Node2D
+extends CharacterBody2D
 
-@onready var area_2d: Area2D = $Area2D
-var dir: Vector2
-var SPEED: float
+@export var impact_effect: PackedScene
+var SPEED: float = 500.0
+var velocity_vector: Vector2
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	area_2d.body_entered.connect(_on_body_entered)
-	var mouse_pos = get_local_mouse_position()
-	dir = mouse_pos.normalized()
-	
+    # Set direction once toward mouse
+    var mouse_pos = get_local_mouse_position()
+    velocity_vector = mouse_pos.normalized() * SPEED
+
 func _physics_process(delta: float) -> void:
-	var velocity = dir * SPEED
-	position += velocity * delta
-	
-func _on_body_entered(_body: Node2D) -> void:
-	print("Objecct Hit")
-	queue_free()
+    # move_and_collide returns a KinematicCollision2D object upon impact
+    var collision = move_and_collide(velocity_vector * delta)
+    
+    if collision:
+        spawn_impact_effect(collision)
+        queue_free()
+
+func spawn_impact_effect(collision: KinematicCollision2D):
+    if impact_effect:
+        var effect = impact_effect.instantiate()
+        get_tree().current_scene.add_child.call_deferred(effect)
+        
+        # This is the exact point of contact on the physics shape
+        effect.global_position = collision.get_position()
+        
+        # Get the surface normal (direction the wall faces)
+        var normal = collision.get_normal()
+        effect.global_rotation = normal.angle() + PI/2
+        
+        # Optional: Add a tiny nudge so it doesn't clip into the floor
+        effect.global_position += normal * 0.5

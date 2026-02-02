@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://cs1x3jiskhl3r"]
+
+[ext_resource type="Script" uid="uid://b3pgsn12dyybu" path="res://entities/player/slime_area.gd" id="1_lcyvr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0f0pd"]
+size = Vector2(128, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0f0pd"]
+bg_color = Color(0.49019608, 0.6666667, 0, 1)
+
+[node name="SlimeArea" type="Area2D" unique_id=1883410175]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_lcyvr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1287875216]
+shape = SubResource("RectangleShape2D_0f0pd")
+
+[node name="Panel" type="Panel" parent="." unique_id=1966699005]
+offset_left = -64.0
+offset_top = -1.0
+offset_right = 64.0
+offset_bottom = 1.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_0f0pd")
+
+[node name="Timer" type="Timer" parent="." unique_id=2141845249]
+wait_time = 3.0
+autostart = true

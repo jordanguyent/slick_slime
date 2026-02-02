@@ -2,36 +2,30 @@
 extends State
 
 var target_point: Vector2
+var weightless_duration: float = 0.25
 
 func enter(msg := {}):
 	if msg.has("point"):
 		target_point = msg.point
-		player.active_grapple_point = msg.point # Pushing the data to the player
+		launch_player(target_point)
 	else:
 		state_machine.transition_to("AirState")
 
-func physics_update(delta: float):
+func launch_player(target: Vector2):
+	var to_target = target - player.global_position
+	var direction = to_target.normalized()
 
-	# Movement Logic
-	var direction = (target_point - player.global_position).normalized()
-	
-	# We use move_toward to ramp up to GRAPPLE_SPEED
-	player.velocity = player.velocity.move_toward(
-		direction * player.GRAPPLE_SPEED,
-		player.GRAPPLE_ACCEL * delta
-	)
-	
-	player.move_and_slide()
+	# Apply the massive slingshot velocity
+	player.velocity = direction * (player.velocity.length() + player.GRAPPLE_SPEED)
 
-	# Release Logic
-	if Input.is_action_just_released("player_grapple"):
-		state_machine.transition_to("AirState")
-	
-	# Auto-release if we get close to the hook
-	if player.global_position.distance_to(target_point) < 20:
-		state_machine.transition_to("AirState")
+	# Tell the player to ignore gravity for a moment
+	player.disable_gravity(weightless_duration) # 0.5 seconds of weightlessness
 
-func exit():
-	player.active_grapple_point = null # Clear it when the grapple ends
-	# Optional: Give a 10% speed boost upon release to reward the timing
-	player.velocity *= 1.1
+	state_machine.transition_to("AirState")
+
+
+
+	# asdjf;alskdjf;lasjkdfl;akjsdf;lkja;lsdkfjasl;dfk
+	# note to self, instead of a slime porjectile, just have the slime so that i can slide and use a resource counter that regenerates. I think the movement will
+	# feel a lot better. 
+	# I also don't want the slime to slide off the wall, but rather slide onto the wall. Maybe for now, forget spikes. But simply an obstacle course

@@ -1,9 +1,13 @@
 extends CharacterBody2D
 
 @export_group("Movement Settings")
-@export var SPEED = 75.0
+@export var SPEED = 100.0
 @export var ACCELERATION = 2000.0
+@export var ACCELERATION_SLIME = 100.0
+@export var FRICTION_SLIME = 100.0
 @export var FRICTION = 3000.0
+@export var FRICTION_AIR = 150.0
+@export var FRICTION_SLIDE = 100.0
 @export var GRAVITY = 600.0
 @export var TERMINAL_VELOCITY = 200.0
 @export var JUMP_HEIGHT_MAX: float = 40.0
@@ -12,36 +16,42 @@ extends CharacterBody2D
 @export var COYOTE_DURATION: float = 0.15 # Duration in seconds
 
 @export_group("Grapple Settings")
-@export var GRAPPLE_SPEED: float = 225.0
-@export var GRAPPLE_ACCEL: float = 1500.0
+@export var GRAPPLE_SPEED: float = 150.0
 @export var GRAPPLE_RANGE: float = 100.0
 @export var GRAPPLE_COUNT: int = 1
 @onready var grapple_cast: RayCast2D = $GrappleCast # Make sure to add this node!
-@onready var state_machine = $PlayerState  
+@onready var state_machine = $PlayerState
 
 @export_group("Slime Settings")
 @export var SLIME_COUNT: int = 1
 @export var SLIME_SPEED: float = 500.0
+@export var slime_projectile: PackedScene
 
-# Calculate the jump velocity
 var max_jump_velocity = -sqrt(2 * GRAVITY * JUMP_HEIGHT_MAX)
 var min_jump_velocity = -sqrt(2 * GRAVITY * JUMP_HEIGHT_MIN)
+
+var player_center_offset: float = -5.0
 
 var jump_buffer_timer: float = 0
 var coyote_timer: SceneTreeTimer = null
 
 var preview_point = null 
-var active_grapple_point = null
+var gravity_disabled: bool = false
+
+func _ready() -> void:
+	Game.slimed.connect(_is_slimed)
+	Game.collected.connect(_collectable_retrieved)
 
 func _physics_process(delta: float) -> void:
 	_handle_jump_buffer(delta)
 	_update_grapple_preview()
-	# wondering if the grapple should be more link a bungee that slings
-	# the slime, rather than pulls
-	# to achieve this feeling, i think the acceleration needs to be more drastic
-	# and then 
 	_handle_grapple_input()
-	_handle_slime_input()
+
+func disable_gravity(duration: float):
+	gravity_disabled = true
+	await get_tree().create_timer(duration).timeout
+	gravity_disabled = false
+
 	
 func _handle_jump_buffer(delta: float) -> void:
 	if jump_buffer_timer > 0:
@@ -71,25 +81,36 @@ func _handle_grapple_input() -> void:
 			GRAPPLE_COUNT -= 1
 			state_machine.transition_to("GrappleState", {"point": point})
 			
+			
+func _draw() -> void:
+	# Reset the coordinate system so we draw in "World Space"
+	# This detaches the drawing from the player's jittery movement
+	draw_set_transform(-global_position, 0, Vector2.ONE)
+
+	# Draw the Preview (when aiming)
+	if preview_point != null:
+		draw_circle(preview_point, 3.0, Color(1, 1, 1, 0.6))
+
 func _handle_slime_input() -> void:
 	# fire a shot toward mouse
 	# collides with tileset
 	# generate an area2D where if player is in it, then player slides and movement resets. 
 	if Input.is_action_just_pressed("player_slime") and SLIME_COUNT > 0:
-		pass
-			
-func _draw() -> void:
-	# 1. Reset the coordinate system so we draw in "World Space"
-	# This detaches the drawing from the player's jittery movement
-	draw_set_transform(-global_position, 0, Vector2.ONE)
+		_create_slime_project()
 
-	# 2. Draw the Preview (when aiming)
-	if preview_point != null and active_grapple_point == null:
-		draw_circle(preview_point, 3.0, Color(1, 1, 1, 0.6))
 
-	# 3. Draw the Active Grapple (when zipping)
-	if active_grapple_point != null:
-		# Use global_position for the player's end of the rope
-		# and active_grapple_point for the wall end
-		draw_line(global_position + Vector2(0, -5), active_grapple_point, Color(0.75, 1.0, 0, 1), 2.0)
-		draw_circle(active_grapple_point, 5.0, Color(0.75, 1.0, 0, 1))
+func _create_slime_project() -> void:
+	var proj_inst = slime_projectile.instantiate()
+	proj_inst.top_level = true
+	proj_inst.global_position = global_position + Vector2(0, player_center_offset)
+	add_child(proj_inst)
+
+func _is_slimed(is_slimed: bool) -> void:
+	if is_slimed:
+		state_machine.transition_to("SlimeState")
+	else:
+		state_machine.transition_to("MoveState")
+
+func _collectable_retrieved(collectable: Collectable) -> void:
+	if collectable is SlimeCoin:
+		print("collected")

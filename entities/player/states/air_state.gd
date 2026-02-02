@@ -3,41 +3,44 @@ extends State
 func enter(msg := {}):
 	if msg.has("do_jump"):
 		player.velocity.y = player.max_jump_velocity
+        
+		# Conserve Slime Momentum
 		if abs(player.velocity.x) > player.SPEED:
-			var diff = abs(player.velocity.x) - player.SPEED
-			var new_speed = player.SPEED + diff/2
-			if sign(player.velocity.x) > 0:
-				player.velocity.x = new_speed
-			elif sign(player.velocity.x) < 0:
-				player.velocity.x = new_speed * -1
-				
-
+			var current_speed = abs(player.velocity.x)
+			player.velocity.x = sign(player.velocity.x) * current_speed
 func physics_update(delta: float):
 	
-	# Horizontal Movement
 	var input_dir = Input.get_axis("player_left", "player_right")
+	var speed_diff = abs(player.velocity.x) - player.SPEED
+
 	if input_dir != 0:
-		if abs(player.velocity.x) < player.SPEED or sign(input_dir) != sign(player.velocity.x):
-			player.velocity.x = move_toward(
-				player.velocity.x, 
-				input_dir * player.SPEED, 
-				player.ACCELERATION * delta
-			)
+		var is_pushing_same_way = sign(input_dir) == sign(player.velocity.x)
+		
+		if speed_diff > 0 and is_pushing_same_way:
+			player.velocity.x = move_toward(player.velocity.x, input_dir * player.SPEED, player.FRICTION_AIR * 0.5 * delta)
+		else:
+			player.velocity.x = move_toward(player.velocity.x, input_dir * player.SPEED, player.ACCELERATION * delta)
 	else:
-		player.velocity.x = move_toward(player.velocity.x, 0, (player.FRICTION * 0.1) * delta)
+		# No input: apply heavier friction if we're going fast to "punish" lack of control
+		var decay = player.FRICTION_AIR
+		if speed_diff > 0:
+			decay *= 2.0 # Double friction when speeding with no input
+		player.velocity.x = move_toward(player.velocity.x, 0, decay * delta)
 
-	player.velocity.y += player.GRAVITY * delta
+	# 2. Gravity Logic
+	if not player.gravity_disabled:
+		player.velocity.y += player.GRAVITY * delta
+		# Cap falling speed
+		if player.velocity.y > player.TERMINAL_VELOCITY:
+			player.velocity.y = player.TERMINAL_VELOCITY
+	else:
+		# Weightless period: You can optionally add a tiny bit of 
+		# vertical air friction so they don't fly UP forever
+		player.velocity.y = move_toward(player.velocity.y, 0, player.FRICTION_AIR * 0.1 * delta)
 
-	var jump_released = Input.is_action_just_released("player_jump")
-	var not_holding_jump = !Input.is_action_pressed("player_jump")
-
-	if (jump_released or not_holding_jump):
-		if player.velocity.y < player.min_jump_velocity:
-			player.velocity.y = player.min_jump_velocity
-	
-	# When player is falling
-	if player.velocity.y > player.TERMINAL_VELOCITY:
-		player.velocity.y = player.TERMINAL_VELOCITY
+	# 3. Short Jump Logic (Variable Jump Height)
+	if Input.is_action_just_released("player_jump") and player.velocity.y < player.min_jump_velocity:
+		player.velocity.y = player.min_jump_velocity
 
 	player.move_and_slide()
 
@@ -49,5 +52,7 @@ func physics_update(delta: float):
 		else:
 			if is_equal_approx(player.velocity.x, 0):
 				state_machine.transition_to("IdleState")
+			elif Input.is_action_pressed("player_down"):
+				state_machine.transition_to("SlideState")
 			else:
 				state_machine.transition_to("MoveState")

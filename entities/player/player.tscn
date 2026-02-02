@@ -2,11 +2,14 @@
 
 [ext_resource type="Script" uid="uid://c55pledto8t47" path="res://entities/player/player.gd" id="1_abrql"]
 [ext_resource type="Texture2D" uid="uid://xwhdvv382kf8" path="res://assets/slime.png" id="1_symyc"]
+[ext_resource type="PackedScene" uid="uid://cswykxrevoj8b" path="res://entities/player/slime_projectile.tscn" id="2_26q78"]
 [ext_resource type="Script" uid="uid://qm3xwjfr0nqp" path="res://entities/state_controller.gd" id="3_sglur"]
 [ext_resource type="Script" uid="uid://d353wcjt3em60" path="res://entities/player/states/move_state.gd" id="4_fkugw"]
 [ext_resource type="Script" uid="uid://bjwlu86k0hir0" path="res://entities/player/states/idle_state.gd" id="4_qiwj3"]
 [ext_resource type="Script" uid="uid://q5ltedhrnfkf" path="res://entities/player/states/grapple_state.gd" id="5_8fjmc"]
 [ext_resource type="Script" uid="uid://b4cmdxmva7sxy" path="res://entities/player/states/air_state.gd" id="6_8fjmc"]
+[ext_resource type="Script" uid="uid://bm51eqbfsc086" path="res://entities/player/states/slime_state.gd" id="9_bectd"]
+[ext_resource type="Script" uid="uid://btxfio5od0xtb" path="res://entities/player/states/slide_state.gd" id="10_wvtmh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_symyc"]
 size = Vector2(12, 9)
@@ -14,6 +17,7 @@ size = Vector2(12, 9)
 [node name="Player" type="CharacterBody2D" unique_id=1060036178]
 collision_layer = 2
 script = ExtResource("1_abrql")
+slime_projectile = ExtResource("2_26q78")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1408978296]
 position = Vector2(0, -7)
@@ -38,6 +42,12 @@ script = ExtResource("5_8fjmc")
 
 [node name="AirState" type="Node2D" parent="PlayerState" unique_id=1869468430]
 script = ExtResource("6_8fjmc")
+
+[node name="SlimeState" type="Node2D" parent="PlayerState" unique_id=1047396065]
+script = ExtResource("9_bectd")
+
+[node name="SlideState" type="Node2D" parent="PlayerState" unique_id=1232312923]
+script = ExtResource("10_wvtmh")
 
 [node name="GrappleCast" type="RayCast2D" parent="." unique_id=1169695462]
 position = Vector2(0, -4)

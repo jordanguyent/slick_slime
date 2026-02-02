@@ -13,6 +13,8 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [node name="Collectable" type="Area2D" unique_id=1049932531]
+collision_layer = 8
+collision_mask = 2
 script = ExtResource("1_7ckw4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=442348394]

@@ -1,10 +1,10 @@
 extends State
 
-func enter(_msg := {}) -> void:
+func enter(_msg: Dictionary = {}) -> void:
 	player.coyote_timer = null
 	player.GRAPPLE_COUNT = 1
 
-func physics_update(delta: float):
+func physics_update(delta: float) -> void:
 	var was_on_floor: bool = player.is_on_floor()
 	var input_dir = Input.get_axis("player_left", "player_right")
 	
@@ -12,13 +12,13 @@ func physics_update(delta: float):
 		player.velocity.x = move_toward(
 			player.velocity.x, 
 			input_dir * player.SPEED, 
-			player.ACCELERATION * delta
+			player.ACCELERATION_SLIME * delta
 		)
 	else:
 		player.velocity.x = move_toward(
 			player.velocity.x, 
 			0, 
-			player.FRICTION * delta
+			player.FRICTION_SLIME * delta
 		)
 
 	player.move_and_slide()
@@ -37,7 +37,5 @@ func physics_update(delta: float):
 
 	if Input.is_action_just_pressed("player_jump"):
 		state_machine.transition_to("AirState", {"do_jump": true})
-	elif Input.is_action_just_pressed("player_down"):
-		state_machine.transition_to("SlideState")
 	elif input_dir == 0 and is_equal_approx(player.velocity.x, 0):
 		state_machine.transition_to("IdleState")

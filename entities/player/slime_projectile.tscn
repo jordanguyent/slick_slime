@@ -1,6 +1,7 @@
-[gd_scene format=3 uid="uid://c667d4lobnwxr"]
+[gd_scene format=3 uid="uid://cswykxrevoj8b"]
 
 [ext_resource type="Script" uid="uid://b3kddjvnoeqhl" path="res://entities/player/slime_projectile.gd" id="1_vflwv"]
+[ext_resource type="PackedScene" uid="uid://cs1x3jiskhl3r" path="res://entities/player/slime_area.tscn" id="2_vwll4"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_17lhe"]
 bg_color = Color(0, 0.7137255, 0.28235295, 1)
@@ -14,11 +15,13 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_17lhe"]
-radius = 5.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_vwll4"]
+radius = 4.0
 
-[node name="SlimeProjectile" type="Node2D" unique_id=148536185]
+[node name="SlimeProjectile" type="CharacterBody2D" unique_id=1739587446]
+collision_layer = 0
 script = ExtResource("1_vflwv")
+impact_effect = ExtResource("2_vwll4")
 
 [node name="Panel" type="Panel" parent="." unique_id=1169174283]
 offset_left = -4.0
@@ -27,7 +30,8 @@ offset_right = 4.0
 offset_bottom = 4.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_17lhe")
 
-[node name="Area2D" type="Area2D" parent="." unique_id=1550253557]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=662174809]
+shape = SubResource("CircleShape2D_vwll4")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1757698905]
-shape = SubResource("CircleShape2D_17lhe")
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=166378214]
+target_position = Vector2(0, 6)

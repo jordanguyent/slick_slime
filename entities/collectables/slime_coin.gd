@@ -1,1 +1,1 @@
-class_name SlimeCoin extends Area2D
+class_name SlimeCoin extends Collectable
