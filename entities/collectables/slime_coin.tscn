@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://beeexr8qnah2"]
+
+[ext_resource type="PackedScene" uid="uid://ls36gt0twowx" path="res://entities/collectables/collectable.tscn" id="1_1ydow"]
+[ext_resource type="Script" uid="uid://kebqb3vhyx27" path="res://entities/collectables/slime_coin.gd" id="2_r4o3v"]
+
+[node name="SlimeCoin" unique_id=1049932531 instance=ExtResource("1_1ydow")]
+script = ExtResource("2_r4o3v")

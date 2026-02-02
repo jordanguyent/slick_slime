@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://ls36gt0twowx"]
+
+[ext_resource type="Script" uid="uid://dgx5l8ueay64u" path="res://entities/collectables/collectable.gd" id="1_7ckw4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xy3q3"]
+radius = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xy3q3"]
+bg_color = Color(0.20642707, 0.6555298, 0.8118875, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="Collectable" type="Area2D" unique_id=1049932531]
+script = ExtResource("1_7ckw4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=442348394]
+shape = SubResource("CircleShape2D_xy3q3")
+
+[node name="Panel" type="Panel" parent="." unique_id=1782801153]
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_xy3q3")
