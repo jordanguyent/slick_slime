@@ -18,7 +18,7 @@ extends CharacterBody2D
 @export_group("Grapple Settings")
 @export var GRAPPLE_SPEED: float = 150.0
 @export var GRAPPLE_RANGE: float = 100.0
-@export var GRAPPLE_COUNT: int = 1
+@export var grapple_cost: int = 30
 @onready var grapple_cast: RayCast2D = $GrappleCast # Make sure to add this node!
 @onready var state_machine = $PlayerState
 
@@ -26,6 +26,14 @@ extends CharacterBody2D
 @export var SLIME_COUNT: int = 1
 @export var SLIME_SPEED: float = 500.0
 @export var slime_projectile: PackedScene
+@export var slime_resource: float = 100.0:
+	set(value):
+		slime_resource = clamp(value, 0, 100)
+		slime_resource_changed.emit(slime_resource)
+@export var slide_cost: int = 20
+@export var slime_regen: int = 20
+
+signal slime_resource_changed(new_value)
 
 var max_jump_velocity = -sqrt(2 * GRAVITY * JUMP_HEIGHT_MAX)
 var min_jump_velocity = -sqrt(2 * GRAVITY * JUMP_HEIGHT_MIN)
@@ -43,6 +51,10 @@ func _ready() -> void:
 	Game.collected.connect(_collectable_retrieved)
 
 func _physics_process(delta: float) -> void:
+
+	if state_machine.state is not SlideState:
+		slime_resource += slime_regen * delta
+
 	_handle_jump_buffer(delta)
 	_update_grapple_preview()
 	_handle_grapple_input()
@@ -75,10 +87,10 @@ func _update_grapple_preview() -> void:
 	queue_redraw()
 
 func _handle_grapple_input() -> void:
-	if Input.is_action_just_pressed("player_grapple") and GRAPPLE_COUNT > 0:
+	if Input.is_action_just_pressed("player_grapple") and slime_resource > grapple_cost:
 		if grapple_cast.is_colliding():
 			var point = grapple_cast.get_collision_point()
-			GRAPPLE_COUNT -= 1
+			slime_resource -= grapple_cost
 			state_machine.transition_to("GrappleState", {"point": point})
 			
 			
