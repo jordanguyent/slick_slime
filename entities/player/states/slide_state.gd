@@ -12,6 +12,7 @@ func physics_update(delta: float) -> void:
 
 	player.move_and_slide()
 
+	player.apply_slime_trail()
 	_handle_transitions()
 	
 
