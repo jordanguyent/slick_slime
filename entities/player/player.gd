@@ -7,33 +7,39 @@ extends CharacterBody2D
 @export var FRICTION_SLIME = 100.0
 @export var FRICTION = 3000.0
 @export var FRICTION_AIR = 150.0
-@export var FRICTION_SLIDE = 100.0
+@export var FRICTION_SLIDE = 300.0
 @export var GRAVITY = 600.0
 @export var TERMINAL_VELOCITY = 200.0
-@export var JUMP_HEIGHT_MAX: float = 40.0
-@export var JUMP_HEIGHT_MIN: float = 16.0
+@export var JUMP_HEIGHT_MAX: float = 42.0
+@export var JUMP_HEIGHT_MIN: float = 12.0
 @export var JUMP_BUFFER_TIME: float = 0.15
 @export var COYOTE_DURATION: float = 0.15 # Duration in seconds
+@export var SPEED_X_MAX: int = 400
+@export var SPEED_Y_MAX: int = 400
 
 @export_group("Grapple Settings")
-@export var GRAPPLE_SPEED: float = 150.0
-@export var GRAPPLE_RANGE: float = 100.0
+@export var GRAPPLE_SPEED: float = 250.0
+@export var GRAPPLE_RANGE: float = 150.0
+@export var GRAPPLE_COUNT_MAX: int =1 
+@export var GRAPPLE_COUNT: int = 1:
+	set(value):
+		GRAPPLE_COUNT = clamp(value, 0, GRAPPLE_COUNT_MAX)
+
 @export var grapple_cost: int = 30
-@onready var grapple_cast: RayCast2D = $GrappleCast # Make sure to add this node!
-@onready var state_machine = $PlayerState
+@export var wall_time: float = 1.0
 
 @export_group("Slime Settings")
 @export var SLIME_COUNT: int = 1
 @export var SLIME_SPEED: float = 500.0
-@export var slime_projectile: PackedScene
-@export var slime_resource: float = 100.0:
-	set(value):
-		slime_resource = clamp(value, 0, 100)
-		slime_resource_changed.emit(slime_resource)
 @export var slide_cost: int = 20
 @export var slime_regen: int = 20
 
-signal slime_resource_changed(new_value)
+@onready var grapple_cast: RayCast2D = $GrappleCast # Make sure to add this node!
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D 
+@onready var state_machine = $PlayerState
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+
+var collision_shape_original_size: Vector2
 
 var max_jump_velocity = -sqrt(2 * GRAVITY * JUMP_HEIGHT_MAX)
 var min_jump_velocity = -sqrt(2 * GRAVITY * JUMP_HEIGHT_MIN)
@@ -45,25 +51,30 @@ var coyote_timer: SceneTreeTimer = null
 
 var preview_point = null 
 var gravity_disabled: bool = false
+var post_grapple: bool = false
 
 func _ready() -> void:
-	Game.slimed.connect(_is_slimed)
 	Game.collected.connect(_collectable_retrieved)
+	collision_shape_original_size = collision_shape.shape.size
 
 func _physics_process(delta: float) -> void:
 
-	if state_machine.state is not SlideState:
-		slime_resource += slime_regen * delta
+	if abs(velocity.x) > SPEED_X_MAX:
+		velocity.x = sign(velocity.x) * SPEED_X_MAX
+	if abs(velocity.y) > SPEED_Y_MAX:
+		velocity.y = sign(velocity.y) * SPEED_Y_MAX
 
 	_handle_jump_buffer(delta)
 	_update_grapple_preview()
 	_handle_grapple_input()
 
-func disable_gravity(duration: float):
+func disable_gravity(duration: float, post_duration: float):
 	gravity_disabled = true
 	await get_tree().create_timer(duration).timeout
 	gravity_disabled = false
-
+	post_grapple = true
+	await get_tree().create_timer(post_duration).timeout
+	post_grapple = false
 	
 func _handle_jump_buffer(delta: float) -> void:
 	if jump_buffer_timer > 0:
@@ -84,13 +95,18 @@ func _update_grapple_preview() -> void:
 	else:
 		preview_point = null
 
+	if GRAPPLE_COUNT > 0:
+		animated_sprite.modulate = Color(0.2, 0.5, 1.0)
+	else:
+		animated_sprite.modulate = Color.WHITE
+
 	queue_redraw()
 
 func _handle_grapple_input() -> void:
-	if Input.is_action_just_pressed("player_grapple") and slime_resource > grapple_cost:
+	if Input.is_action_just_pressed("player_grapple") and GRAPPLE_COUNT > 0:
 		if grapple_cast.is_colliding():
 			var point = grapple_cast.get_collision_point()
-			slime_resource -= grapple_cost
+			GRAPPLE_COUNT -= 1
 			state_machine.transition_to("GrappleState", {"point": point})
 			
 			
@@ -102,26 +118,6 @@ func _draw() -> void:
 	# Draw the Preview (when aiming)
 	if preview_point != null:
 		draw_circle(preview_point, 3.0, Color(1, 1, 1, 0.6))
-
-func _handle_slime_input() -> void:
-	# fire a shot toward mouse
-	# collides with tileset
-	# generate an area2D where if player is in it, then player slides and movement resets. 
-	if Input.is_action_just_pressed("player_slime") and SLIME_COUNT > 0:
-		_create_slime_project()
-
-
-func _create_slime_project() -> void:
-	var proj_inst = slime_projectile.instantiate()
-	proj_inst.top_level = true
-	proj_inst.global_position = global_position + Vector2(0, player_center_offset)
-	add_child(proj_inst)
-
-func _is_slimed(is_slimed: bool) -> void:
-	if is_slimed:
-		state_machine.transition_to("SlimeState")
-	else:
-		state_machine.transition_to("MoveState")
 
 func _collectable_retrieved(collectable: Collectable) -> void:
 	if collectable is SlimeCoin:

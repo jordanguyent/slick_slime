@@ -1,8 +1,6 @@
 extends CanvasLayer
 
 @onready var rich_text_label: RichTextLabel = $Control/MarginContainer/RichTextLabel
-@onready var slime_bar: ProgressBar = $Control/MarginContainer2/ProgressBar
-@export var player: CharacterBody2D
 
 var time_elapsed: float = 0.0
 
@@ -23,6 +21,3 @@ func _process(delta: float):
 	
 	# Update the RichTextLabel
 	rich_text_label.text = "[font_size=8][color=white]" + time_string + "[/color][/font_size]"
-
-	if not is_equal_approx(slime_bar.value, player.slime_resource):
-		slime_bar.value = player.slime_resource

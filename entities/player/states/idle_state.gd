@@ -2,6 +2,8 @@ extends State
 
 func enter(_msg := {}):
 	player.velocity.x = 0
+	player.GRAPPLE_COUNT = player.GRAPPLE_COUNT_MAX
+	player.animated_sprite.play("idle")
 
 func physics_update(_delta: float):
 

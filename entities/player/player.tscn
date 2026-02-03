@@ -1,30 +1,123 @@
 [gd_scene format=3 uid="uid://basa8xgye5rjx"]
 
 [ext_resource type="Script" uid="uid://c55pledto8t47" path="res://entities/player/player.gd" id="1_abrql"]
-[ext_resource type="Texture2D" uid="uid://xwhdvv382kf8" path="res://assets/slime.png" id="1_symyc"]
-[ext_resource type="PackedScene" uid="uid://cswykxrevoj8b" path="res://entities/player/slime_projectile.tscn" id="2_26q78"]
+[ext_resource type="Texture2D" uid="uid://bj63rxpwqkk06" path="res://assets/slime-Sheet.png" id="2_bectd"]
 [ext_resource type="Script" uid="uid://qm3xwjfr0nqp" path="res://entities/state_controller.gd" id="3_sglur"]
 [ext_resource type="Script" uid="uid://d353wcjt3em60" path="res://entities/player/states/move_state.gd" id="4_fkugw"]
 [ext_resource type="Script" uid="uid://bjwlu86k0hir0" path="res://entities/player/states/idle_state.gd" id="4_qiwj3"]
 [ext_resource type="Script" uid="uid://q5ltedhrnfkf" path="res://entities/player/states/grapple_state.gd" id="5_8fjmc"]
 [ext_resource type="Script" uid="uid://b4cmdxmva7sxy" path="res://entities/player/states/air_state.gd" id="6_8fjmc"]
-[ext_resource type="Script" uid="uid://bm51eqbfsc086" path="res://entities/player/states/slime_state.gd" id="9_bectd"]
+[ext_resource type="Script" uid="uid://lg5beaajogh" path="res://entities/player/states/wall_state.gd" id="9_bectd"]
 [ext_resource type="Script" uid="uid://btxfio5od0xtb" path="res://entities/player/states/slide_state.gd" id="10_wvtmh"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_gx6sm"]
+atlas = ExtResource("2_bectd")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wvtmh"]
+atlas = ExtResource("2_bectd")
+region = Rect2(0, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7thud"]
+atlas = ExtResource("2_bectd")
+region = Rect2(16, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a1qjk"]
+atlas = ExtResource("2_bectd")
+region = Rect2(32, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_afbqv"]
+atlas = ExtResource("2_bectd")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bectd"]
+atlas = ExtResource("2_bectd")
+region = Rect2(0, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j3ovn"]
+atlas = ExtResource("2_bectd")
+region = Rect2(16, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yqrof"]
+atlas = ExtResource("2_bectd")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_j3ovn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gx6sm")
+}],
+"loop": true,
+"name": &"grapple",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wvtmh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7thud")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a1qjk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a1qjk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7thud")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wvtmh")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_afbqv")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bectd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j3ovn")
+}],
+"loop": true,
+"name": &"move",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yqrof")
+}],
+"loop": true,
+"name": &"slide",
+"speed": 5.0
+}]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_symyc"]
-size = Vector2(12, 9)
+size = Vector2(12, 8)
 
 [node name="Player" type="CharacterBody2D" unique_id=1060036178]
 collision_layer = 2
 script = ExtResource("1_abrql")
-slime_projectile = ExtResource("2_26q78")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1408978296]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1493306416]
 position = Vector2(0, -7)
-texture = ExtResource("1_symyc")
+sprite_frames = SubResource("SpriteFrames_j3ovn")
+animation = &"slide"
+autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1647392745]
-position = Vector2(0, -4.5)
+position = Vector2(0, -4)
 shape = SubResource("RectangleShape2D_symyc")
 
 [node name="PlayerState" type="Node2D" parent="." unique_id=1122111957]
@@ -43,11 +136,11 @@ script = ExtResource("5_8fjmc")
 [node name="AirState" type="Node2D" parent="PlayerState" unique_id=1869468430]
 script = ExtResource("6_8fjmc")
 
-[node name="SlimeState" type="Node2D" parent="PlayerState" unique_id=1047396065]
-script = ExtResource("9_bectd")
-
 [node name="SlideState" type="Node2D" parent="PlayerState" unique_id=1232312923]
 script = ExtResource("10_wvtmh")
+
+[node name="WallState" type="Node2D" parent="PlayerState" unique_id=834380319]
+script = ExtResource("9_bectd")
 
 [node name="GrappleCast" type="RayCast2D" parent="." unique_id=1169695462]
 position = Vector2(0, -4)

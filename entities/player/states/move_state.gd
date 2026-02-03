@@ -2,6 +2,8 @@ extends State
 
 func enter(_msg := {}) -> void:
 	player.coyote_timer = null
+	player.GRAPPLE_COUNT = player.GRAPPLE_COUNT_MAX
+	player.animated_sprite.play("move")
 
 func physics_update(delta: float):
 	var was_on_floor: bool = player.is_on_floor()
@@ -21,6 +23,8 @@ func physics_update(delta: float):
 		)
 
 	player.move_and_slide()
+
+	_handle_animation(input_dir)
 	
 	if was_on_floor and not player.is_on_floor() and player.velocity.y >= 0:
 		player.coyote_timer = get_tree().create_timer(player.COYOTE_DURATION)
@@ -40,3 +44,9 @@ func physics_update(delta: float):
 		state_machine.transition_to("SlideState")
 	elif input_dir == 0 and is_equal_approx(player.velocity.x, 0):
 		state_machine.transition_to("IdleState")
+
+func _handle_animation(dir_x: float) -> void:
+	if dir_x > 0:
+		player.animated_sprite.flip_h = false
+	elif dir_x < 0:
+		player.animated_sprite.flip_h = true

@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://cn2o8quj24wm7"]
+
+[ext_resource type="Script" uid="uid://bc6fylaqkmax8" path="res://entities/main_camera.gd" id="1_g7gov"]
+
+[node name="MainCamera" type="Camera2D" unique_id=1119294936]
+process_callback = 0
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
+script = ExtResource("1_g7gov")
+target_path = NodePath("../Player")
