@@ -54,6 +54,7 @@ var preview_point = null
 var gravity_disabled: bool = false
 var post_grapple: bool = false
 var friction_coef: float = 1.0
+var last_tile_pos: Vector2i = Vector2i(-1, -1)
 
 func _ready() -> void:
 	Game.collected.connect(_collectable_retrieved)
@@ -91,15 +92,26 @@ func _get_friction_at_feet() -> void:
 		friction_coef = 1.0
 
 func apply_slime_trail() -> void:
-	if tile_map:
-		var feet_offset = Vector2(0, (collision_shape_original_size.y / 2) + 2)
-		var tile_pos = tile_map.local_to_map(global_position + feet_offset)
+	if not tile_map:
+		return
+
+	var feet_offset = Vector2(0, (collision_shape_original_size.y / 2) + 2)
+	var current_tile_pos = tile_map.local_to_map(global_position + feet_offset)
+
+	if current_tile_pos != last_tile_pos:
+		_process_slime_on_previous_tile(last_tile_pos)
+		last_tile_pos = current_tile_pos
+
+func _process_slime_on_previous_tile(pos: Vector2i) -> void:
+	if pos == Vector2i(-1, -1):
+		return
 		
-		var current_tile_coords = tile_map.get_cell_atlas_coords(tile_pos)
-		
-		if current_tile_coords in target_tile_coords_list:
-			var slime_atlas_coords: Vector2 = slime_atlas_coords_list.get(target_tile_coords_list.find(current_tile_coords))
-			tile_map.set_cell(tile_pos, source_id, slime_atlas_coords)
+	var atlas_coords = tile_map.get_cell_atlas_coords(pos)
+
+	if atlas_coords in target_tile_coords_list:
+		var index = target_tile_coords_list.find(atlas_coords)
+		var slime_atlas_coords = slime_atlas_coords_list[index]
+		tile_map.set_cell(pos, source_id, slime_atlas_coords)
 	
 func _handle_jump_buffer(delta: float) -> void:
 	if jump_buffer_timer > 0:

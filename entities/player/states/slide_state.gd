@@ -8,10 +8,9 @@ func enter(_msg: Dictionary = {}) -> void:
 	player.collision_shape.position.y += (player.collision_shape_original_size.y / 4)
 
 func physics_update(delta: float) -> void:
-	player.velocity.x =	move_toward(player.velocity.x, 0, player.FRICTION_SLIDE * delta)
+	player.velocity.x =	move_toward(player.velocity.x, 0, player.FRICTION_SLIDE * player.friction_coef * delta)
 
 	player.move_and_slide()
-
 	player.apply_slime_trail()
 	_handle_transitions()
 	

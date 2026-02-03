@@ -47,6 +47,9 @@ func physics_update(delta: float):
 		if player.post_grapple:
 			player.velocity = player.velocity.move_toward(Vector2.ZERO, player.FRICTION_AIR * 10 * delta)
 
+		if player.is_on_wall():
+			state_machine.transition_to("WallState")
+
 		player.animated_sprite.play("grapple")
 
 	# 3. Short Jump Logic (Variable Jump Height)

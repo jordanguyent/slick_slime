@@ -144,10 +144,3 @@ script = ExtResource("9_bectd")
 
 [node name="GrappleCast" type="RayCast2D" parent="." unique_id=1169695462]
 position = Vector2(0, -4)
-
-[node name="Line2D" type="Line2D" parent="." unique_id=428924192]
-top_level = true
-position = Vector2(0, -4)
-points = PackedVector2Array(0, 0)
-width = 2.0
-default_color = Color(0, 0.5585527, 0.058174744, 1)
