@@ -5,12 +5,16 @@ func enter(_msg := {}):
 	player.GRAPPLE_COUNT = player.GRAPPLE_COUNT_MAX
 	player.anim_state.travel("idle")
 
-func physics_update(_delta: float):
+func physics_update(delta: float):
 
 	if Input.is_action_pressed("player_down"):
 		player.anim_state.travel("crouch")
 	else:
 		player.anim_state.travel("idle")
+
+	player.velocity.y += player.GRAVITY * delta
+
+	player.move_and_slide()
 
 	# State Transitions
 	if not player.is_on_floor():
@@ -25,4 +29,6 @@ func physics_update(_delta: float):
 	if Input.is_action_just_pressed("player_jump"):
 		state_machine.transition_to("AirState", {"do_jump": true})
 		return
+
+
 		
