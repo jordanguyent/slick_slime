@@ -57,4 +57,4 @@ position = Vector2(160, 89)
 stage_group_path = NodePath("../StageGroup")
 
 [node name="SlimeOrb" parent="." unique_id=1049932531 instance=ExtResource("4_sk5k4")]
-position = Vector2(96, 96)
+position = Vector2(92, 98)

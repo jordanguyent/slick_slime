@@ -78,6 +78,7 @@ player_slime={
 2d_physics/layer_5="spikes"
 2d_physics/layer_6="checkpoint"
 2d_physics/layer_7="camera"
+2d_physics/layer_8="platforms"
 
 [physics]
 
