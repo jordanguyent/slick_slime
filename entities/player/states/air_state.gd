@@ -9,6 +9,8 @@ func enter(msg := {}):
 			var current_speed = abs(player.velocity.x)
 			player.velocity.x = sign(player.velocity.x) * current_speed
 
+		player.anim_state.travel("air")
+
 func physics_update(delta: float):
 	var speed_diff = abs(player.velocity.x) - player.SPEED
 	var input_dir = Input.get_axis("player_left", "player_right")
@@ -36,8 +38,6 @@ func physics_update(delta: float):
 		if player.velocity.y > player.TERMINAL_VELOCITY:
 			player.velocity.y = player.TERMINAL_VELOCITY
 
-		player.animated_sprite.play("jump")
-
 	else:
 		# Weightless period: You can optionally add a tiny bit of 
 		# vertical air friction so they don't fly UP forever
@@ -49,8 +49,6 @@ func physics_update(delta: float):
 
 		if player.is_on_wall():
 			state_machine.transition_to("WallState")
-
-		player.animated_sprite.play("grapple")
 
 	# 3. Short Jump Logic (Variable Jump Height)
 	if Input.is_action_just_released("player_jump") and player.velocity.y < player.min_jump_velocity:
@@ -83,3 +81,6 @@ func _handle_animation(dir_x: float) -> void:
 		player.animated_sprite.flip_h = false
 	elif dir_x < 0:
 		player.animated_sprite.flip_h = true
+
+func _exit() -> void:
+	pass

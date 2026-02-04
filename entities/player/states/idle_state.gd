@@ -3,7 +3,7 @@ extends State
 func enter(_msg := {}):
 	player.velocity.x = 0
 	player.GRAPPLE_COUNT = player.GRAPPLE_COUNT_MAX
-	player.animated_sprite.play("idle")
+	player.anim_state.travel("idle")
 
 func physics_update(_delta: float):
 

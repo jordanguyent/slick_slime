@@ -8,7 +8,6 @@ func enter(_msg: Dictionary = {}) -> void:
 	player.gravity_disabled = false
 
 func physics_update(delta: float) -> void:
-	print(wall_timer)
 	wall_timer -= delta
 
 	if wall_timer < 0 or not player.is_on_wall():

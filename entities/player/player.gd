@@ -39,6 +39,8 @@ extends CharacterBody2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D 
 @onready var state_machine = $PlayerState
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var anim_tree: AnimationTree = $AnimationTree
+@onready var anim_state = anim_tree.get("parameters/playback")
 
 var collision_shape_original_size: Vector2
 
@@ -55,6 +57,7 @@ var gravity_disabled: bool = false
 var post_grapple: bool = false
 var friction_coef: float = 1.0
 var last_tile_pos: Vector2i = Vector2i(-1, -1)
+var jump_param = "parameters/air/blend_position"
 
 func _ready() -> void:
 	Game.collected.connect(_collectable_retrieved)
@@ -66,6 +69,8 @@ func _physics_process(delta: float) -> void:
 		velocity.x = sign(velocity.x) * SPEED_X_MAX
 	if abs(velocity.y) > SPEED_Y_MAX:
 		velocity.y = sign(velocity.y) * SPEED_Y_MAX
+
+	anim_tree.set(jump_param, velocity)
 		
 	_get_friction_at_feet()
 	_handle_jump_buffer(delta)

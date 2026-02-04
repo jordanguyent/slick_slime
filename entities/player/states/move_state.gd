@@ -3,7 +3,7 @@ extends State
 func enter(_msg := {}) -> void:
 	player.coyote_timer = null
 	player.GRAPPLE_COUNT = player.GRAPPLE_COUNT_MAX
-	player.animated_sprite.play("move")
+	player.anim_state.travel("move")
 
 	if player.friction_coef < 1:
 		if abs(player.velocity.x) > player.SPEED:
