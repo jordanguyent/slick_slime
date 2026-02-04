@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://c0ql6m53vfvs7" path="res://scenes/levels/level_1.gd" id="1_bswci"]
 [ext_resource type="Script" uid="uid://ct3jipcs8t3es" path="res://scenes/levels/level_ui.gd" id="2_6761a"]
 [ext_resource type="PackedScene" uid="uid://cvwo3nqt4y2xn" path="res://scenes/levels/stages/start_stage.tscn" id="4_6761a"]
-[ext_resource type="PackedScene" uid="uid://dfvayth5v6wdw" path="res://entities/collectables/slime_orb.tscn" id="4_sk5k4"]
 [ext_resource type="PackedScene" uid="uid://basa8xgye5rjx" path="res://entities/player/player.tscn" id="4_x42e6"]
 [ext_resource type="PackedScene" uid="uid://cn2o8quj24wm7" path="res://entities/camera/main_camera.tscn" id="5_6761a"]
 [ext_resource type="PackedScene" uid="uid://xily4gv672gd" path="res://scenes/levels/stages/stage_1.tscn" id="7_oc4kc"]
@@ -55,6 +54,3 @@ position = Vector2(64, 138)
 [node name="MainCamera" parent="." unique_id=1119294936 instance=ExtResource("5_6761a")]
 position = Vector2(160, 89)
 stage_group_path = NodePath("../StageGroup")
-
-[node name="SlimeOrb" parent="." unique_id=1049932531 instance=ExtResource("4_sk5k4")]
-position = Vector2(92, 98)

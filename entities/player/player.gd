@@ -63,6 +63,8 @@ var tile_map: TileMapLayer:
 		tile_map = value
 		last_tile_pos = Vector2i(-1, -1)
 
+var cone_distance: float = 10
+
 func _ready() -> void:
 	Game.collected.connect(_collectable_retrieved)
 	collision_shape_original_size = collision_shape.shape.size
@@ -157,7 +159,7 @@ func _update_grapple_preview() -> void:
 	grapple_cast.force_raycast_update()
 
 	if grapple_cast.is_colliding():
-		preview_point = grapple_cast.get_collision_point()
+		preview_point = grapple_cast.get_collision_point().snapped(Vector2(1, 1))
 	else:
 		preview_point = null
 

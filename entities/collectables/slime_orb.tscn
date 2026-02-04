@@ -4,4 +4,8 @@
 [ext_resource type="Script" uid="uid://dayugxgervp85" path="res://entities/collectables/slime_orb.gd" id="2_5aeon"]
 
 [node name="SlimeOrb" unique_id=1049932531 instance=ExtResource("1_1ydow")]
+position = Vector2(4, 4)
 script = ExtResource("2_5aeon")
+
+[node name="Panel" parent="." index="1" unique_id=1782801153]
+metadata/_edit_use_anchors_ = true
