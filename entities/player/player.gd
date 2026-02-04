@@ -18,14 +18,13 @@ extends CharacterBody2D
 @export var SPEED_Y_MAX: int = 400
 
 @export_group("Grapple Settings")
-@export var GRAPPLE_SPEED: float = 250.0
+@export var GRAPPLE_SPEED: float = 200.0
 @export var GRAPPLE_RANGE: float = 65.0
 @export var GRAPPLE_COUNT_MAX: int =1 
 @export var GRAPPLE_COUNT: int = 1:
 	set(value):
 		GRAPPLE_COUNT = clamp(value, 0, GRAPPLE_COUNT_MAX)
 
-@export var grapple_cost: int = 30
 @export var wall_time: float = 1.0
 
 @export_group("Slime Settings")
@@ -59,23 +58,16 @@ var post_grapple: bool = false
 var friction_coef: float = 1.0
 var last_tile_pos: Vector2i = Vector2i(-1, -1)
 var jump_param = "parameters/air/blend_position"
-var tile_map: TileMapLayer
+var tile_map: TileMapLayer:
+	set(value):
+		tile_map = value
+		last_tile_pos = Vector2i(-1, -1)
 
 func _ready() -> void:
 	Game.collected.connect(_collectable_retrieved)
 	collision_shape_original_size = collision_shape.shape.size
 	hurt_box.body_entered.connect(_on_body_entered_hurt_box)
 	level_node = get_parent()
-
-	# For Testing Purposes
-	_find_tilemap_sibling()
-	
-
-func _find_tilemap_sibling() -> void:
-	for sibling in get_parent().get_children():
-		if sibling is TileMapLayer:
-			tile_map = sibling
-			return 
 
 
 func _physics_process(delta: float) -> void:
@@ -103,12 +95,13 @@ func disable_gravity(duration: float, post_duration: float):
 
 func _get_friction_at_feet() -> void:
 	var feet_offset = Vector2(0, (collision_shape_original_size.y / 2) + 2)
-	var tile_pos = tile_map.local_to_map(global_position + feet_offset)
+	var local_pos = tile_map.to_local(global_position + feet_offset)
+	var tile_pos = tile_map.local_to_map(local_pos)
+	
 	var data = tile_map.get_cell_tile_data(tile_pos)
 
 	if data:
-		var friction = data.get_custom_data("friction_coef")
-		friction_coef = friction
+		friction_coef = data.get_custom_data("friction_coef")
 	else:
 		friction_coef = 1.0
 
@@ -117,7 +110,11 @@ func apply_slime_trail() -> void:
 		return
 
 	var feet_offset = Vector2(0, (collision_shape_original_size.y / 2) + 2)
-	var current_tile_pos = tile_map.local_to_map(global_position + feet_offset)
+	var current_tile_pos = tile_map.local_to_map(tile_map.to_local(global_position + feet_offset))
+
+	if last_tile_pos == Vector2i(-1, -1):
+		last_tile_pos = current_tile_pos
+		return
 
 	if current_tile_pos != last_tile_pos:
 		_process_slime_on_previous_tile(last_tile_pos)
@@ -128,6 +125,7 @@ func _process_slime_on_previous_tile(pos: Vector2i) -> void:
 		return
 		
 	var atlas_coords = tile_map.get_cell_atlas_coords(pos)
+	print(atlas_coords)
 
 	if atlas_coords in target_tile_coords_list:
 		var index = target_tile_coords_list.find(atlas_coords)

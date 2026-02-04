@@ -1,6 +1,10 @@
 [gd_scene format=4 uid="uid://xily4gv672gd"]
 
 [ext_resource type="TileSet" uid="uid://1bdo48j17w3l" path="res://scenes/main_tile_set.tres" id="1_f0f88"]
+[ext_resource type="PackedScene" uid="uid://df8b37kcaqfdj" path="res://entities/checkpoint/checkpoint.tscn" id="2_qcn25"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qsooc"]
+size = Vector2(24, 48)
 
 [node name="Stage1" type="Node2D" unique_id=1325536621]
 
@@ -11,3 +15,26 @@ tile_set = ExtResource("1_f0f88")
 [node name="CameraBoundary" type="ReferenceRect" parent="." unique_id=1718063189]
 offset_right = 320.0
 offset_bottom = 180.0
+
+[node name="Checkpoint" parent="." unique_id=1529371756 instance=ExtResource("2_qcn25")]
+position = Vector2(16, 128)
+
+[node name="CollisionShape2D" parent="Checkpoint" index="0" unique_id=1417215898]
+position = Vector2(-4, 0)
+shape = SubResource("RectangleShape2D_qsooc")
+
+[node name="Marker2D" parent="Checkpoint" index="1" unique_id=1752582494]
+position = Vector2(0, 24)
+
+[node name="Checkpoint2" parent="." unique_id=1064756949 instance=ExtResource("2_qcn25")]
+position = Vector2(312, 128)
+
+[node name="CollisionShape2D" parent="Checkpoint2" index="0" unique_id=1417215898]
+position = Vector2(-4, 0)
+shape = SubResource("RectangleShape2D_qsooc")
+
+[node name="Marker2D" parent="Checkpoint2" index="1" unique_id=1752582494]
+position = Vector2(-8, 24)
+
+[editable path="Checkpoint"]
+[editable path="Checkpoint2"]
