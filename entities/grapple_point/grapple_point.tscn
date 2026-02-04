@@ -22,3 +22,6 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_hkfyt")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1572531224]
 position = Vector2(4, 4)
 shape = SubResource("CircleShape2D_mxg5i")
+
+[node name="Marker2D" type="Marker2D" parent="." unique_id=1047966853]
+position = Vector2(4, 4)

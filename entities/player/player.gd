@@ -24,7 +24,7 @@ extends CharacterBody2D
 @export var GRAPPLE_COUNT: int = 1:
 	set(value):
 		GRAPPLE_COUNT = clamp(value, 0, GRAPPLE_COUNT_MAX)
-
+@export var GRAPPLE_MARGIN: float = 20
 @export var wall_time: float = 1.0
 
 @export_group("Slime Settings")
@@ -62,8 +62,6 @@ var tile_map: TileMapLayer:
 	set(value):
 		tile_map = value
 		last_tile_pos = Vector2i(-1, -1)
-
-var cone_distance: float = 10
 
 func _ready() -> void:
 	Game.collected.connect(_collectable_retrieved)
@@ -127,7 +125,6 @@ func _process_slime_on_previous_tile(pos: Vector2i) -> void:
 		return
 		
 	var atlas_coords = tile_map.get_cell_atlas_coords(pos)
-	print(atlas_coords)
 
 	if atlas_coords in target_tile_coords_list:
 		var index = target_tile_coords_list.find(atlas_coords)
@@ -150,8 +147,8 @@ func _handle_jump_buffer(delta: float) -> void:
 
 func _update_grapple_preview() -> void:
 	var mouse_pos = get_local_mouse_position()
-
 	var target_pos = mouse_pos
+
 	if mouse_pos.length() > GRAPPLE_RANGE:
 		target_pos = mouse_pos.normalized() * GRAPPLE_RANGE
 
@@ -161,7 +158,7 @@ func _update_grapple_preview() -> void:
 	if grapple_cast.is_colliding():
 		preview_point = grapple_cast.get_collision_point().snapped(Vector2(1, 1))
 	else:
-		preview_point = null
+		preview_point = _get_snapped_anchor_point()
 
 	if GRAPPLE_COUNT > 0:
 		animated_sprite.modulate = Color(0.2, 0.5, 1.0)
@@ -172,25 +169,59 @@ func _update_grapple_preview() -> void:
 
 func _handle_grapple_input() -> void:
 	if Input.is_action_just_pressed("player_grapple") and GRAPPLE_COUNT > 0:
-		if grapple_cast.is_colliding():
-			var point = grapple_cast.get_collision_point()
+		if preview_point != null:
 			GRAPPLE_COUNT -= 1
-			state_machine.transition_to("GrappleState", {"point": point})
-			
+			state_machine.transition_to("GrappleState", {"point": preview_point})
+
+func _get_snapped_anchor_point():
+	var best_point = null
+	var closest_dist_to_line = GRAPPLE_MARGIN
+
+	var line_start = global_position
+	var line_end = global_position + (grapple_cast.target_position)
+
+
+
+	for anchor in get_tree().get_nodes_in_group("GrappleAnchors"):
+		var marker = anchor.find_child("Marker2D", true, false)
+		var anchor_pos = marker.global_position if marker else anchor.global_position
+		var dist_to_player = global_position.distance_to(anchor_pos)
+		if dist_to_player > GRAPPLE_RANGE:
+			continue
+		
+		var closest_point_on_line = Geometry2D.get_closest_point_to_segment(anchor_pos, line_start, line_end)
+		
+		var dist_to_line = anchor_pos.distance_to(closest_point_on_line)
+
+		if dist_to_line < closest_dist_to_line:
+			if _has_line_of_sight(anchor_pos):
+				closest_dist_to_line = dist_to_line
+				best_point = anchor_pos
+
+	return best_point
+
+func _has_line_of_sight(target_global_pos: Vector2) -> bool:
+	var original_target = grapple_cast.target_position
+	grapple_cast.target_position = to_local(target_global_pos)
+	grapple_cast.force_raycast_update()
+
+	var can_see = !grapple_cast.is_colliding() or \
+					grapple_cast.get_collision_point().distance_to(target_global_pos) < 5.0
+
+	grapple_cast.target_position = original_target
+	return can_see
 			
 func _draw() -> void:
-	# 1. Draw the Dotted Range Circle (Local Space)
 	var circle_color = Color(1, 1, 1, 0.1)
 	var line_width = 0.5
-	var dash_count = 64 # Total number of dots/dashes
-	var dash_length = TAU / (dash_count * 2) # Length of each dash in radians
+	var dash_count = 64 
+	var dash_length = TAU / (dash_count * 2) 
 
 	for i in range(dash_count):
 		var start_angle = i * (TAU / dash_count)
 		var end_angle = start_angle + dash_length
 		draw_arc(Vector2.ZERO, GRAPPLE_RANGE, start_angle, end_angle, 4, circle_color, line_width)
 
-	# 2. Draw the Preview Point (World Space)
 	draw_set_transform(-global_position, 0, Vector2.ONE)
 	if preview_point != null:
 		draw_circle(preview_point, 3.0, Color(1, 1, 1, 0.6))

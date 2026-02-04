@@ -3,7 +3,6 @@
 [ext_resource type="TileSet" uid="uid://1bdo48j17w3l" path="res://scenes/main_tile_set.tres" id="1_us5q6"]
 [ext_resource type="PackedScene" uid="uid://df8b37kcaqfdj" path="res://entities/checkpoint/checkpoint.tscn" id="2_k0d5o"]
 [ext_resource type="PackedScene" uid="uid://8sif2etjc5e" path="res://entities/platform/breakable_platform.tscn" id="3_kkaqd"]
-[ext_resource type="PackedScene" uid="uid://driwrjbetket4" path="res://entities/grapple_point/grapple_point.tscn" id="5_1tn6o"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kkaqd"]
 size = Vector2(32, 48)
@@ -34,11 +33,6 @@ shape = SubResource("RectangleShape2D_kkaqd")
 
 [node name="BreakablePlatform" parent="." unique_id=928913913 instance=ExtResource("3_kkaqd")]
 position = Vector2(120, 102)
-
-[node name="GrappleGroup" type="Node2D" parent="." unique_id=184684103]
-
-[node name="GrapplePoint" parent="GrappleGroup" unique_id=2054332074 instance=ExtResource("5_1tn6o")]
-position = Vector2(72, 88)
 
 [editable path="Checkpoint"]
 [editable path="Checkpoint2"]
