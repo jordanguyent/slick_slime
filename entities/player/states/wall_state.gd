@@ -2,10 +2,19 @@ extends State
 
 var wall_timer: float
 
-func enter(_msg: Dictionary = {}) -> void:
+func enter(msg: Dictionary = {}) -> void:
 	wall_timer = player.wall_time
 	player.velocity.y = 0
 	player.gravity_disabled = false
+	player.anim_state.travel("wall")
+
+	if player.is_on_wall():
+		var wall_normal = player.get_wall_normal()
+		
+		if wall_normal.x > 0:
+			player.animated_sprite.flip_h = false # Face Right
+		elif wall_normal.x < 0:
+			player.animated_sprite.flip_h = true  # Face Left
 
 func physics_update(delta: float) -> void:
 	wall_timer -= delta

@@ -9,7 +9,7 @@ func enter(msg := {}):
 			var current_speed = abs(player.velocity.x)
 			player.velocity.x = sign(player.velocity.x) * current_speed
 
-		player.anim_state.travel("air")
+	player.anim_state.travel("air")
 
 func physics_update(delta: float):
 	var speed_diff = abs(player.velocity.x) - player.SPEED
