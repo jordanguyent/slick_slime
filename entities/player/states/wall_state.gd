@@ -2,7 +2,7 @@ extends State
 
 var wall_timer: float
 
-func enter(msg: Dictionary = {}) -> void:
+func enter(_msg: Dictionary = {}) -> void:
 	wall_timer = player.wall_time
 	player.velocity.y = 0
 	player.gravity_disabled = false

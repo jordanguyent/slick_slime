@@ -41,6 +41,7 @@ extends CharacterBody2D
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var anim_tree: AnimationTree = $AnimationTree
 @onready var anim_state = anim_tree.get("parameters/playback")
+@onready var hurt_box: Area2D = $HurtBox
 
 var collision_shape_original_size: Vector2
 
@@ -62,6 +63,7 @@ var jump_param = "parameters/air/blend_position"
 func _ready() -> void:
 	Game.collected.connect(_collectable_retrieved)
 	collision_shape_original_size = collision_shape.shape.size
+	hurt_box.body_entered.connect(_on_body_entered_hurt_box)
 
 func _physics_process(delta: float) -> void:
 
@@ -117,6 +119,10 @@ func _process_slime_on_previous_tile(pos: Vector2i) -> void:
 		var index = target_tile_coords_list.find(atlas_coords)
 		var slime_atlas_coords = slime_atlas_coords_list[index]
 		tile_map.set_cell(pos, source_id, slime_atlas_coords)
+
+func _on_body_entered_hurt_box(_body: Node2D) -> void:
+	# This is where the player dies. Instead of reloading scene, best to spawn back at spawn point
+	get_tree().call_deferred("reload_current_scene")
 	
 func _handle_jump_buffer(delta: float) -> void:
 	if jump_buffer_timer > 0:
