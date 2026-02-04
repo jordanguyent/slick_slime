@@ -2,7 +2,7 @@
 extends State
 
 var target_point: Vector2
-var weightless_duration: float = 0.2
+var weightless_duration: float = 0.225
 var post_duration: float = 0.05
 
 func enter(msg := {}):

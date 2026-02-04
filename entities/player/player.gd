@@ -148,9 +148,12 @@ func _handle_jump_buffer(delta: float) -> void:
 
 func _update_grapple_preview() -> void:
 	var mouse_pos = get_local_mouse_position()
-	var dir_to_mouse = mouse_pos.normalized()
 
-	grapple_cast.target_position = dir_to_mouse * GRAPPLE_RANGE
+	var target_pos = mouse_pos
+	if mouse_pos.length() > GRAPPLE_RANGE:
+		target_pos = mouse_pos.normalized() * GRAPPLE_RANGE
+
+	grapple_cast.target_position = target_pos
 	grapple_cast.force_raycast_update()
 
 	if grapple_cast.is_colliding():
