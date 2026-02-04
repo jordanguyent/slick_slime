@@ -29,3 +29,12 @@ func _process(delta):
 		
 		# 4. Smoothly move the camera to that final position
 		global_position = global_position.lerp(final_target, smoothing_speed * delta)
+
+func update_limits_from_rect(boundary: ReferenceRect):
+	var rect_pos = boundary.global_position
+	var rect_size = boundary.size
+
+	limit_left = rect_pos.x
+	limit_top = rect_pos.y
+	limit_right = rect_pos.x + rect_size.x
+	limit_bottom = rect_pos.y + rect_size.y

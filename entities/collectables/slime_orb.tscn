@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://dfvayth5v6wdw"]
+
+[ext_resource type="PackedScene" uid="uid://ls36gt0twowx" path="res://entities/collectables/collectable.tscn" id="1_1ydow"]
+[ext_resource type="Script" uid="uid://dayugxgervp85" path="res://entities/collectables/slime_orb.gd" id="2_5aeon"]
+
+[node name="SlimeOrb" unique_id=1049932531 instance=ExtResource("1_1ydow")]
+script = ExtResource("2_5aeon")

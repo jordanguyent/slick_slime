@@ -26,3 +26,5 @@ offset_top = -4.0
 offset_right = 4.0
 offset_bottom = 4.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_xy3q3")
+
+[node name="SpawnTimer" type="Timer" parent="." unique_id=1603516702]

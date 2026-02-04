@@ -19,7 +19,7 @@ extends CharacterBody2D
 
 @export_group("Grapple Settings")
 @export var GRAPPLE_SPEED: float = 250.0
-@export var GRAPPLE_RANGE: float = 75.0
+@export var GRAPPLE_RANGE: float = 65.0
 @export var GRAPPLE_COUNT_MAX: int =1 
 @export var GRAPPLE_COUNT: int = 1:
 	set(value):
@@ -29,7 +29,6 @@ extends CharacterBody2D
 @export var wall_time: float = 1.0
 
 @export_group("Slime Settings")
-@export var tile_map: TileMapLayer
 @export var target_tile_coords_list: Array[Vector2i] = [Vector2i(1, 0), Vector2i(2, 0), Vector2i(3, 0)] 
 @export var slime_atlas_coords_list: Array[Vector2i] = [Vector2i(1, 3), Vector2i(2, 3), Vector2i(3, 3)]
 @export var source_id: int = 0
@@ -42,6 +41,7 @@ extends CharacterBody2D
 @onready var anim_tree: AnimationTree = $AnimationTree
 @onready var anim_state = anim_tree.get("parameters/playback")
 @onready var hurt_box: Area2D = $HurtBox
+var level_node: Node2D
 
 var collision_shape_original_size: Vector2
 
@@ -59,13 +59,16 @@ var post_grapple: bool = false
 var friction_coef: float = 1.0
 var last_tile_pos: Vector2i = Vector2i(-1, -1)
 var jump_param = "parameters/air/blend_position"
+var tile_map: TileMapLayer
 
 func _ready() -> void:
 	Game.collected.connect(_collectable_retrieved)
 	collision_shape_original_size = collision_shape.shape.size
 	hurt_box.body_entered.connect(_on_body_entered_hurt_box)
+	level_node = get_parent()
 
 func _physics_process(delta: float) -> void:
+	if not tile_map: return
 
 	if abs(velocity.x) > SPEED_X_MAX:
 		velocity.x = sign(velocity.x) * SPEED_X_MAX
@@ -176,5 +179,5 @@ func _draw() -> void:
 		draw_circle(preview_point, 3.0, Color(1, 1, 1, 0.6))
 
 func _collectable_retrieved(collectable: Collectable) -> void:
-	if collectable is SlimeCoin:
-		print("collected")
+	if collectable is SlimeOrb:
+		GRAPPLE_COUNT = 1
