@@ -77,10 +77,11 @@ func physics_update(delta: float):
 				state_machine.transition_to("MoveState")
 
 func _handle_animation(dir_x: float) -> void:
-	if dir_x > 0:
-		player.animated_sprite.flip_h = false
-	elif dir_x < 0:
-		player.animated_sprite.flip_h = true
+	if player.is_on_wall():
+		var wall_normal = player.get_wall_normal()
+		player.animated_sprite.flip_h = (wall_normal.x < 0)
+	elif dir_x != 0:
+		player.animated_sprite.flip_h = (dir_x < 0)
 
 func _exit() -> void:
 	pass

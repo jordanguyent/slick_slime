@@ -12,9 +12,9 @@ func enter(_msg: Dictionary = {}) -> void:
 		var wall_normal = player.get_wall_normal()
 		
 		if wall_normal.x > 0:
-			player.animated_sprite.flip_h = false # Face Right
+			player.animated_sprite.flip_h = false # Look Right
 		elif wall_normal.x < 0:
-			player.animated_sprite.flip_h = true  # Face Left
+			player.animated_sprite.flip_h = true  # Look Left
 
 func physics_update(delta: float) -> void:
 	wall_timer -= delta

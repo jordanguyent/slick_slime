@@ -19,7 +19,7 @@ extends CharacterBody2D
 
 @export_group("Grapple Settings")
 @export var GRAPPLE_SPEED: float = 250.0
-@export var GRAPPLE_RANGE: float = 150.0
+@export var GRAPPLE_RANGE: float = 75.0
 @export var GRAPPLE_COUNT_MAX: int =1 
 @export var GRAPPLE_COUNT: int = 1:
 	set(value):
@@ -159,11 +159,19 @@ func _handle_grapple_input() -> void:
 			
 			
 func _draw() -> void:
-	# Reset the coordinate system so we draw in "World Space"
-	# This detaches the drawing from the player's jittery movement
-	draw_set_transform(-global_position, 0, Vector2.ONE)
+	# 1. Draw the Dotted Range Circle (Local Space)
+	var circle_color = Color(1, 1, 1, 0.1)
+	var line_width = 0.5
+	var dash_count = 64 # Total number of dots/dashes
+	var dash_length = TAU / (dash_count * 2) # Length of each dash in radians
 
-	# Draw the Preview (when aiming)
+	for i in range(dash_count):
+		var start_angle = i * (TAU / dash_count)
+		var end_angle = start_angle + dash_length
+		draw_arc(Vector2.ZERO, GRAPPLE_RANGE, start_angle, end_angle, 4, circle_color, line_width)
+
+	# 2. Draw the Preview Point (World Space)
+	draw_set_transform(-global_position, 0, Vector2.ONE)
 	if preview_point != null:
 		draw_circle(preview_point, 3.0, Color(1, 1, 1, 0.6))
 
