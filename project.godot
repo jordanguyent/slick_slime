@@ -76,6 +76,7 @@ player_slime={
 2d_physics/layer_3="slime"
 2d_physics/layer_4="collectables"
 2d_physics/layer_5="spikes"
+2d_physics/layer_6="checkpoint"
 
 [physics]
 

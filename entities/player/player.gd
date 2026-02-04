@@ -67,6 +67,17 @@ func _ready() -> void:
 	hurt_box.body_entered.connect(_on_body_entered_hurt_box)
 	level_node = get_parent()
 
+	# For Testing Purposes
+	_find_tilemap_sibling()
+	
+
+func _find_tilemap_sibling() -> void:
+	for sibling in get_parent().get_children():
+		if sibling is TileMapLayer:
+			tile_map = sibling
+			return 
+
+
 func _physics_process(delta: float) -> void:
 	if not tile_map: return
 
@@ -124,8 +135,11 @@ func _process_slime_on_previous_tile(pos: Vector2i) -> void:
 		tile_map.set_cell(pos, source_id, slime_atlas_coords)
 
 func _on_body_entered_hurt_box(_body: Node2D) -> void:
-	# This is where the player dies. Instead of reloading scene, best to spawn back at spawn point
-	get_tree().call_deferred("reload_current_scene")
+	var level = get_tree().current_scene
+	if level.has_method("respawn_player"):
+		level.call_deferred("respawn_player")
+	else:
+		get_tree().call_deferred("reload_current_scene")
 	
 func _handle_jump_buffer(delta: float) -> void:
 	if jump_buffer_timer > 0:

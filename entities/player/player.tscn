@@ -376,6 +376,82 @@ tracks/5/keys = {
 "values": [Vector2(0, -4)]
 }
 
+[sub_resource type="Animation" id="Animation_7thud"]
+resource_name = "crouch"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"slide"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CollisionShape2D:shape:size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(12, 4)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CollisionShape2D:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -2)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("HurtBox/HurtShape:shape:size")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(10, 4)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("HurtBox/HurtShape:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -2)]
+}
+
 [sub_resource type="Animation" id="Animation_j3ovn"]
 resource_name = "grapple"
 length = 0.06666667
@@ -1142,6 +1218,7 @@ tracks/5/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_7thud"]
 _data = {
 &"RESET": SubResource("Animation_bectd"),
+&"crouch": SubResource("Animation_7thud"),
 &"grapple": SubResource("Animation_j3ovn"),
 &"idle": SubResource("Animation_wvtmh"),
 &"jump": SubResource("Animation_yqrof"),
@@ -1210,6 +1287,9 @@ max_space = Vector2(400, 400)
 snap = Vector2(10, 10)
 blend_mode = 1
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ghoj8"]
+animation = &"crouch"
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bectd"]
 animation = &"idle"
 
@@ -1240,10 +1320,16 @@ animation = &"wall"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_t1t22"]
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_50fht"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_wuv6x"]
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_yqrof"]
 states/Start/position = Vector2(181, 108)
 states/air/node = SubResource("AnimationNodeBlendSpace2D_bectd")
 states/air/position = Vector2(531, 254)
+states/crouch/node = SubResource("AnimationNodeAnimation_ghoj8")
+states/crouch/position = Vector2(713, 233)
 states/idle/node = SubResource("AnimationNodeAnimation_bectd")
 states/idle/position = Vector2(314, 108)
 states/move/node = SubResource("AnimationNodeAnimation_wvtmh")
@@ -1252,7 +1338,7 @@ states/slide/node = SubResource("AnimationNodeAnimation_7thud")
 states/slide/position = Vector2(303, 234)
 states/wall/node = SubResource("AnimationNodeAnimation_221hk")
 states/wall/position = Vector2(612, 159)
-transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_a1qjk"), "idle", "move", SubResource("AnimationNodeStateMachineTransition_j3ovn"), "move", "idle", SubResource("AnimationNodeStateMachineTransition_afbqv"), "slide", "idle", SubResource("AnimationNodeStateMachineTransition_7thud"), "idle", "slide", SubResource("AnimationNodeStateMachineTransition_gx6sm"), "idle", "air", SubResource("AnimationNodeStateMachineTransition_yqrof"), "air", "idle", SubResource("AnimationNodeStateMachineTransition_3wlsy"), "idle", "wall", SubResource("AnimationNodeStateMachineTransition_ghoj8"), "wall", "air", SubResource("AnimationNodeStateMachineTransition_t1t22")]
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_a1qjk"), "idle", "move", SubResource("AnimationNodeStateMachineTransition_j3ovn"), "move", "idle", SubResource("AnimationNodeStateMachineTransition_afbqv"), "slide", "idle", SubResource("AnimationNodeStateMachineTransition_7thud"), "idle", "slide", SubResource("AnimationNodeStateMachineTransition_gx6sm"), "idle", "air", SubResource("AnimationNodeStateMachineTransition_yqrof"), "air", "idle", SubResource("AnimationNodeStateMachineTransition_3wlsy"), "idle", "wall", SubResource("AnimationNodeStateMachineTransition_ghoj8"), "wall", "air", SubResource("AnimationNodeStateMachineTransition_t1t22"), "idle", "crouch", SubResource("AnimationNodeStateMachineTransition_50fht"), "crouch", "idle", SubResource("AnimationNodeStateMachineTransition_wuv6x")]
 graph_offset = Vector2(-391, 33)
 
 [node name="Player" type="CharacterBody2D" unique_id=1060036178]

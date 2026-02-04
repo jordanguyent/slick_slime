@@ -7,6 +7,11 @@ func enter(_msg := {}):
 
 func physics_update(_delta: float):
 
+	if Input.is_action_pressed("player_down"):
+		player.anim_state.travel("crouch")
+	else:
+		player.anim_state.travel("idle")
+
 	# State Transitions
 	if not player.is_on_floor():
 		state_machine.transition_to("AirState")
