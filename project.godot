@@ -80,6 +80,7 @@ player_slime={
 2d_physics/layer_7="camera"
 2d_physics/layer_8="platforms"
 2d_physics/layer_9="grapple_point"
+2d_physics/layer_10="grapple_block_break"
 
 [physics]
 

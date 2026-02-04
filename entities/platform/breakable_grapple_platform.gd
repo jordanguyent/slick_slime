@@ -25,6 +25,9 @@ func start_breaking() -> void:
 		tween.tween_property(panel, "position:x", -2.0, 0.05).as_relative()
 
 func _on_break_timer_timeout():
+	destroy()
+
+func destroy() -> void:
 	collision_shape.set_deferred("disabled", true)
 	detection_area.set_deferred("monitoring", false)
 	hide()

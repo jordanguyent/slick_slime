@@ -69,7 +69,6 @@ func _ready() -> void:
 	hurt_box.body_entered.connect(_on_body_entered_hurt_box)
 	level_node = get_parent()
 
-
 func _physics_process(delta: float) -> void:
 	if not tile_map: return
 
@@ -170,6 +169,11 @@ func _update_grapple_preview() -> void:
 func _handle_grapple_input() -> void:
 	if Input.is_action_just_pressed("player_grapple") and GRAPPLE_COUNT > 0:
 		if preview_point != null:
+			
+			var collider = grapple_cast.get_collider()
+			if collider and collider.has_method("destroy"):
+				collider.destroy()
+			
 			GRAPPLE_COUNT -= 1
 			state_machine.transition_to("GrappleState", {"point": preview_point})
 
@@ -179,8 +183,6 @@ func _get_snapped_anchor_point():
 
 	var line_start = global_position
 	var line_end = global_position + (grapple_cast.target_position)
-
-
 
 	for anchor in get_tree().get_nodes_in_group("GrappleAnchors"):
 		var marker = anchor.find_child("Marker2D", true, false)
@@ -212,6 +214,12 @@ func _has_line_of_sight(target_global_pos: Vector2) -> bool:
 	return can_see
 			
 func _draw() -> void:
+	if gravity_disabled and preview_point != null:
+		var player_center = Vector2(0, player_center_offset)
+		var local_rope_end = to_local(preview_point)
+		draw_line(player_center, local_rope_end, Color(0.5, 1.0, 0.0, 0.7), 1.0)
+		draw_circle(local_rope_end, 2.0, Color(0.8, 0.8, 0.8))
+
 	var circle_color = Color(1, 1, 1, 0.1)
 	var line_width = 0.5
 	var dash_count = 64 
