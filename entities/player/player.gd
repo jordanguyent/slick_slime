@@ -1,4 +1,4 @@
-extends CharacterBody2D
+class_name Player extends CharacterBody2D
 
 @export_group("Movement Settings")
 @export var SPEED = 100.0

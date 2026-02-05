@@ -6,8 +6,19 @@ class_name LevelOne extends Node2D
 @onready var level_ui: CanvasLayer = $CanvasLayer
 var current_spawn_point: Vector2 
 
-var stage_list: Array
 @export var current_stage = 0
+var stage_list: Array
+var DEBUG: bool = true
+
+
+var stage_spawn_list: Array = [
+	Vector2(16, 152),
+	Vector2(1056.0, 152),
+	Vector2(1376.0, 152),
+	Vector2(2016.0, 152),
+	Vector2(2648.0, 56),
+	Vector2(3296.0, 152)
+]
 
 func _ready() -> void:
 	current_spawn_point = player.position
@@ -17,6 +28,17 @@ func _ready() -> void:
 		camera.stage_changed.connect(_on_camera_stage_changed)
 
 	inject_tilemap_to_player()
+
+func _process(_delta: float) -> void:
+	if DEBUG:
+		if Input.is_action_just_pressed("next_stage"):
+			if current_stage < stage_list.size() - 1:
+				current_stage += 1
+				player.position = stage_spawn_list[current_stage]
+		if Input.is_action_just_pressed("prev_stage"):
+			if current_stage > 0:
+				current_stage -= 1
+				player.position = stage_spawn_list[current_stage]
 
 func switch_to_stage(index: int) -> void:
 	if index >= 0 and index < stage_list.size():
