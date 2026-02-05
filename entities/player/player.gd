@@ -53,6 +53,7 @@ var jump_buffer_timer: float = 0
 var coyote_timer: SceneTreeTimer = null
 
 var preview_point = null 
+var grapple_point = null
 var gravity_disabled: bool = false
 var post_grapple: bool = false
 var friction_coef: float = 1.0
@@ -145,6 +146,7 @@ func _handle_jump_buffer(delta: float) -> void:
 		jump_buffer_timer = JUMP_BUFFER_TIME
 
 func _update_grapple_preview() -> void:
+	
 	var mouse_pos = get_local_mouse_position()
 	var target_pos = mouse_pos
 
@@ -169,7 +171,7 @@ func _update_grapple_preview() -> void:
 func _handle_grapple_input() -> void:
 	if Input.is_action_just_pressed("player_grapple") and GRAPPLE_COUNT > 0:
 		if preview_point != null:
-			
+			grapple_point = preview_point.snapped(Vector2(1, 1))
 			var collider = grapple_cast.get_collider()
 			if collider and collider.has_method("destroy"):
 				collider.destroy()
@@ -198,7 +200,7 @@ func _get_snapped_anchor_point():
 		if dist_to_line < closest_dist_to_line:
 			if _has_line_of_sight(anchor_pos):
 				closest_dist_to_line = dist_to_line
-				best_point = anchor_pos
+				best_point = anchor_pos.snapped(Vector2(1, 1))
 
 	return best_point
 
@@ -214,9 +216,9 @@ func _has_line_of_sight(target_global_pos: Vector2) -> bool:
 	return can_see
 			
 func _draw() -> void:
-	if gravity_disabled and preview_point != null:
+	if gravity_disabled and grapple_point != null:
 		var player_center = Vector2(0, player_center_offset)
-		var local_rope_end = to_local(preview_point)
+		var local_rope_end = to_local(grapple_point)
 		draw_line(player_center, local_rope_end, Color(0.5, 1.0, 0.0, 0.7), 1.0)
 		draw_circle(local_rope_end, 2.0, Color(0.8, 0.8, 0.8))
 
