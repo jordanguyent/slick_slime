@@ -24,11 +24,13 @@ class_name Player extends CharacterBody2D
 @export var GRAPPLE_COUNT: int = 1:
 	set(value):
 		GRAPPLE_COUNT = clamp(value, 0, GRAPPLE_COUNT_MAX)
-@export var GRAPPLE_MARGIN: float = 20
+@export var GRAPPLE_MARGIN: float = 25
 @export var wall_time: float = 1.0
 
 @export_group("Slime Settings")
 @export var source_id: int = 0
+@export var SLIME_BOOST: float = 1.5
+@export var SLIDE_BOOST: float = 1.2
 
 
 @onready var grapple_cast: RayCast2D = $GrappleCast # Make sure to add this node!
@@ -55,6 +57,9 @@ var grapple_point = null
 var gravity_disabled: bool = false
 var post_grapple: bool = false
 var friction_coef: float = 1.0
+var speed_multiplier: float = 1.0:
+	get:
+		return 1.5 if friction_coef < 0.5 else 1.0
 var last_tile_pos: Vector2i = Vector2i(-1, -1)
 var jump_param = "parameters/air/blend_position"
 var tile_map: TileMapLayer:

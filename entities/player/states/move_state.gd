@@ -10,18 +10,23 @@ func enter(_msg := {}) -> void:
 			var current_speed = abs(player.velocity.x)
 			player.velocity.x = sign(player.velocity.x) * current_speed
 
+var direction = Input.get_axis("player_left", "player_right")
+
+
 func physics_update(delta: float):
 	var was_on_floor: bool = player.is_on_floor()
 	var input_dir = Input.get_axis("player_left", "player_right")
-	var speed_diff = abs(player.velocity.x) - player.SPEED
+	var current_max_speed = player.SPEED * player.speed_multiplier
+	var speed_diff = abs(player.velocity.x) - current_max_speed
+
 	
 	if input_dir != 0:
 		var is_pushing_same_way = sign(input_dir) == sign(player.velocity.x)
 		
 		if speed_diff > 0 and is_pushing_same_way and player.friction_coef < 1:
-			player.velocity.x = move_toward(player.velocity.x, input_dir * player.SPEED, player.FRICTION_AIR * player.friction_coef * delta)
+			player.velocity.x = move_toward(player.velocity.x, input_dir * current_max_speed, player.FRICTION_AIR * player.friction_coef * delta)
 		else:
-			player.velocity.x = move_toward(player.velocity.x, input_dir * player.SPEED, player.ACCELERATION * delta)
+			player.velocity.x = move_toward(player.velocity.x, input_dir * current_max_speed, player.ACCELERATION * delta)
 	else:
 		player.velocity.x = move_toward(
 			player.velocity.x, 

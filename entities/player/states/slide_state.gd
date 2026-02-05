@@ -22,7 +22,7 @@ func _handle_transitions() -> void:
 		return
 	
 	if Input.is_action_just_pressed("player_jump"):
-		state_machine.transition_to("AirState", {"do_jump": true})
+		state_machine.transition_to("AirState", {"do_jump": true, "from_slide": true})
 	elif Input.is_action_just_released("player_down"):
 		state_machine.transition_to("MoveState")
 

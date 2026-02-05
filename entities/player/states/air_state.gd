@@ -4,10 +4,16 @@ func enter(msg := {}):
 	if msg.has("do_jump"):
 		player.velocity.y = player.max_jump_velocity
 		
+		# SLIME/SLIDE CONSERVATION
+		# Check if we were already moving fast (from a slide or slime)
 		if abs(player.velocity.x) > player.SPEED:
-			var current_speed = abs(player.velocity.x)
-			player.velocity.x = sign(player.velocity.x) * current_speed
-
+			# We multiply the current speed by a small bonus or just keep it
+			# This ensures the 'launch' feeling
+			var boost = player.SLIDE_BOOST if msg.has("from_slide") else 1.0
+			if player.friction_coef < 0.5:
+				boost = player.SLIME_BOOST
+			player.velocity.x *= boost 
+			
 	player.anim_state.travel("air")
 
 func physics_update(delta: float):
