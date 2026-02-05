@@ -3,6 +3,7 @@ class_name LevelOne extends Node2D
 @onready var stage_group: Node2D = $StageGroup
 @onready var player: CharacterBody2D = $Player
 @onready var camera: Camera2D = $MainCamera 
+@onready var level_ui: CanvasLayer = $CanvasLayer
 var current_spawn_point: Vector2 
 
 var stage_list: Array

@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 @onready var rich_text_label: RichTextLabel = $Control/MarginContainer/RichTextLabel
+@onready var anim_player: AnimationPlayer = $ColorRect/AnimationPlayer
 
 var time_elapsed: float = 0.0
 
@@ -21,3 +22,11 @@ func _process(delta: float):
 	
 	# Update the RichTextLabel
 	rich_text_label.text = "[font_size=8][color=white]" + time_string + "[/color][/font_size]"
+
+func play_exit_transition():
+	anim_player.play("slide_in")
+	await anim_player.animation_finished
+
+func play_enter_transition():
+	anim_player.play("slide_out")
+	await anim_player.animation_finished

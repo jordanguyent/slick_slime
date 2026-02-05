@@ -8,10 +8,101 @@
 [ext_resource type="PackedScene" uid="uid://xily4gv672gd" path="res://scenes/levels/stages/stage_1.tscn" id="7_oc4kc"]
 [ext_resource type="PackedScene" uid="uid://q5ed2q8wq5on" path="res://scenes/levels/stages/stage_2.tscn" id="8_s8va5"]
 
+[sub_resource type="Animation" id="Animation_s8va5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(336, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-8, 184)]
+}
+
+[sub_resource type="Animation" id="Animation_oc4kc"]
+resource_name = "slide_in"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(336, 0), Vector2(336, 192)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-8, 184), Vector2(-8, -8)]
+}
+
+[sub_resource type="Animation" id="Animation_dga24"]
+resource_name = "slide_out"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(336, 200), Vector2(336, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-8, -8), Vector2(-8, -8)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_s8va5"]
+_data = {
+&"RESET": SubResource("Animation_s8va5"),
+&"slide_in": SubResource("Animation_oc4kc"),
+&"slide_out": SubResource("Animation_dga24")
+}
+
 [node name="Level1" type="Node2D" unique_id=1437649669]
 script = ExtResource("1_bswci")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=139656175]
+layer = 100
 script = ExtResource("2_6761a")
 
 [node name="Control" type="Control" parent="CanvasLayer" unique_id=1641341318]
@@ -33,6 +124,16 @@ theme_override_constants/outline_size = 1
 bbcode_enabled = true
 text = "
 "
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=102404378]
+offset_left = -8.0
+offset_top = 184.0
+offset_right = 328.0
+offset_bottom = 184.0
+color = Color(0, 0, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/ColorRect" unique_id=1286252621]
+libraries/ = SubResource("AnimationLibrary_s8va5")
 
 [node name="GameState" type="Node2D" parent="." unique_id=411245573]
 
