@@ -12,16 +12,18 @@ var DEBUG: bool = true
 
 
 var stage_spawn_list: Array = [
-	Vector2(16, 152),
-	Vector2(1056.0, 152),
-	Vector2(1376.0, 152),
-	Vector2(1840.0, 152),
-	Vector2(2480.0, 152),
-	Vector2(3112.0, 56),
-	Vector2(3760.0, 152),
-	Vector2(4400.0, 72),
-	Vector2(4376.0, -152.0),
-	Vector2(4048.0, -152.0)
+	Vector2(16, 152),			# start stage
+	Vector2(1056.0, 152),		# stage 1
+	Vector2(1376.0, 152),		# stage 1.5
+	Vector2(1840.0, 152),		# stage 2
+	Vector2(2480.0, 152),		# stage 3
+	Vector2(3112.0, 56),		# stage 4
+	Vector2(3760.0, 152), 		# stage 5
+	Vector2(4400.0, 72), 		# stage 6
+	Vector2(4376.0, -152.0), 	# stage 7
+	Vector2(4048.0, -152.0), 	# stage 7.5
+	Vector2(4400.0, -360.0), 	# stage 8
+	Vector2(4720.0, -360.0)		# stage 9
 ]
 
 func _ready() -> void:
@@ -70,6 +72,7 @@ func respawn_player():
 	if player:
 		player.global_position = current_spawn_point
 		player.velocity = Vector2.ZERO
+		player.is_alive = true
 
 func _on_camera_stage_changed(new_stage_node: Node2D):
 	# Find the index of the stage node the camera just found

@@ -6,6 +6,7 @@ func enter(_msg: Dictionary = {}) -> void:
 	player.velocity = Vector2.ZERO
 	player.anim_state.travel("death")
 	player.last_tile_pos = Vector2i(-1, -1)
+	player.is_alive = false
 	_handle_death_sequence()
 
 func _handle_death_sequence() -> void:

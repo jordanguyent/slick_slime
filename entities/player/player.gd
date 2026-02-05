@@ -67,6 +67,7 @@ var tile_map: TileMapLayer:
 		tile_map = value
 		last_tile_pos = Vector2i(-1, -1)
 var slime_map: TileMapLayer
+var is_alive = true
 
 func _ready() -> void:
 	Game.collected.connect(_collectable_retrieved)
@@ -77,17 +78,18 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if not slime_map: return
 
-	if abs(velocity.x) > SPEED_X_MAX:
-		velocity.x = sign(velocity.x) * SPEED_X_MAX
-	if abs(velocity.y) > SPEED_Y_MAX:
-		velocity.y = sign(velocity.y) * SPEED_Y_MAX
+	if is_alive:
+		if abs(velocity.x) > SPEED_X_MAX:
+			velocity.x = sign(velocity.x) * SPEED_X_MAX
+		if abs(velocity.y) > SPEED_Y_MAX:
+			velocity.y = sign(velocity.y) * SPEED_Y_MAX
 
-	anim_tree.set(jump_param, velocity)
-		
-	_get_friction_at_feet()
-	_handle_jump_buffer(delta)
-	_update_grapple_preview()
-	_handle_grapple_input()
+		anim_tree.set(jump_param, velocity)
+			
+		_get_friction_at_feet()
+		_handle_jump_buffer(delta)
+		_update_grapple_preview()
+		_handle_grapple_input()
 
 func disable_gravity(duration: float, post_duration: float):
 	gravity_disabled = true

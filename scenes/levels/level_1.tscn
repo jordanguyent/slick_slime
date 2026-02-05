@@ -14,6 +14,8 @@
 [ext_resource type="PackedScene" uid="uid://cc3gjrfskmq58" path="res://scenes/levels/stages/stage_6.tscn" id="9_excbq"]
 [ext_resource type="PackedScene" uid="uid://8iix5xnqtkba" path="res://scenes/levels/stages/stage_7.tscn" id="10_iav0o"]
 [ext_resource type="PackedScene" uid="uid://c6imr1pr0rk30" path="res://scenes/levels/stages/stage_7_5.tscn" id="11_dnkej"]
+[ext_resource type="PackedScene" uid="uid://b802v7fkadlgq" path="res://scenes/levels/stages/stage_8.tscn" id="13_wtwp4"]
+[ext_resource type="PackedScene" uid="uid://cceo030ohp52y" path="res://scenes/levels/stages/stage_9.tscn" id="14_iwr0g"]
 
 [sub_resource type="Animation" id="Animation_s8va5"]
 length = 0.001
@@ -177,6 +179,12 @@ position = Vector2(4064, -304)
 [node name="Stage7_5" parent="StageGroup" unique_id=1496851823 instance=ExtResource("11_dnkej")]
 position = Vector2(3744, -248)
 
+[node name="Stage8" parent="StageGroup" unique_id=1460767761 instance=ExtResource("13_wtwp4")]
+position = Vector2(4384, -512)
+
+[node name="Stage9" parent="StageGroup" unique_id=1804147291 instance=ExtResource("14_iwr0g")]
+position = Vector2(4704, -512)
+
 [node name="Player" parent="." unique_id=1060036178 instance=ExtResource("4_x42e6")]
 position = Vector2(64, 138)
 
@@ -185,4 +193,4 @@ position = Vector2(160, 89)
 stage_group_path = NodePath("../StageGroup")
 
 [node name="Marker2D" type="Marker2D" parent="." unique_id=1835731412]
-position = Vector2(4360, -152)
+position = Vector2(4720, -360)
