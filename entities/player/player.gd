@@ -132,11 +132,7 @@ func _process_slime_on_previous_tile(pos: Vector2i) -> void:
 		tile_map.set_cell(pos, source_id, slime_atlas_coords)
 
 func _on_body_entered_hurt_box(_body: Node2D) -> void:
-	var level = get_tree().current_scene
-	if level.has_method("respawn_player"):
-		level.call_deferred("respawn_player")
-	else:
-		get_tree().call_deferred("reload_current_scene")
+	state_machine.transition_to("DeathState")
 	
 func _handle_jump_buffer(delta: float) -> void:
 	if jump_buffer_timer > 0:
@@ -216,7 +212,7 @@ func _has_line_of_sight(target_global_pos: Vector2) -> bool:
 	return can_see
 			
 func _draw() -> void:
-	if gravity_disabled and grapple_point != null:
+	if gravity_disabled and grapple_point != null and not is_on_floor() and not is_on_wall():
 		var player_center = Vector2(0, player_center_offset)
 		var local_rope_end = to_local(grapple_point)
 		draw_line(player_center, local_rope_end, Color(0.5, 1.0, 0.0, 0.7), 1.0)
