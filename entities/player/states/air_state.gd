@@ -9,9 +9,16 @@ func enter(msg := {}):
 		if abs(player.velocity.x) > player.SPEED:
 			# We multiply the current speed by a small bonus or just keep it
 			# This ensures the 'launch' feeling
-			var boost = player.SLIDE_BOOST if msg.has("from_slide") else 1.0
+			var boost: float = 1.0
 			if player.friction_coef < 0.5:
-				boost = player.SLIME_BOOST
+				if msg.has("from_slide"):
+					boost = player.SLIME_BOOST
+				else:
+					boost = player.SLIDE_BOOST
+			else:
+				if msg.has("from_slide"):
+					boost = player.SLIDE_BOOST
+
 			player.velocity.x *= boost 
 			
 	player.anim_state.travel("air")

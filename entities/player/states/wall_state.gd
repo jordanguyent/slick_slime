@@ -25,3 +25,5 @@ func physics_update(delta: float) -> void:
 
 	if Input.is_action_just_pressed("player_jump"):
 		state_machine.transition_to("WallJumpState", {"do_wall_jump": player.get_wall_normal()})
+	if Input.is_action_just_pressed("player_down"):
+		state_machine.transition_to("AirState")

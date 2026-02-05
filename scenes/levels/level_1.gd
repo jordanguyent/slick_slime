@@ -15,12 +15,13 @@ var stage_spawn_list: Array = [
 	Vector2(16, 152),
 	Vector2(1056.0, 152),
 	Vector2(1376.0, 152),
-	Vector2(2016.0, 152),
-	Vector2(2648.0, 56),
-	Vector2(3296.0, 152),
-	Vector2(3936.0, 72),
-	Vector2(3912.0, -152.0),
-	Vector2(3584.0, -152.0)
+	Vector2(1840.0, 152),
+	Vector2(2480.0, 152),
+	Vector2(3112.0, 56),
+	Vector2(3760.0, 152),
+	Vector2(4400.0, 72),
+	Vector2(4376.0, -152.0),
+	Vector2(4048.0, -152.0)
 ]
 
 func _ready() -> void:

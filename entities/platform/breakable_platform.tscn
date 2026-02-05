@@ -45,5 +45,5 @@ position = Vector2(0, -4.5)
 shape = SubResource("RectangleShape2D_5btdt")
 
 [node name="RespawnTimer" type="Timer" parent="." unique_id=364982606]
-wait_time = 4.0
+wait_time = 3.0
 one_shot = true

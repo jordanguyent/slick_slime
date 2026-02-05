@@ -241,4 +241,5 @@ func _draw() -> void:
 
 func _collectable_retrieved(collectable: Collectable) -> void:
 	if collectable is SlimeOrb:
+		print("collected")
 		GRAPPLE_COUNT = 1
