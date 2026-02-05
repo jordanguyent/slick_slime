@@ -4,7 +4,6 @@ func enter(msg := {}):
 	if msg.has("do_jump"):
 		player.velocity.y = player.max_jump_velocity
 		
-		# Conserve Slime Momentum
 		if abs(player.velocity.x) > player.SPEED:
 			var current_speed = abs(player.velocity.x)
 			player.velocity.x = sign(player.velocity.x) * current_speed
@@ -25,16 +24,12 @@ func physics_update(delta: float):
 			else:
 				player.velocity.x = move_toward(player.velocity.x, input_dir * player.SPEED, player.ACCELERATION * delta)
 		else:
-			# No input: apply heavier friction if we're going fast to "punish" lack of control
 			var decay = player.FRICTION_AIR
 			if speed_diff > 0:
-				decay *= 2.0 # Double friction when speeding with no input
+				decay *= 2.0 
 			player.velocity.x = move_toward(player.velocity.x, 0, decay * delta)
 
-		# 2. Gravity Logic
-	
 		player.velocity.y += player.GRAVITY * delta
-		# Cap falling speed
 		if player.velocity.y > player.TERMINAL_VELOCITY:
 			player.velocity.y = player.TERMINAL_VELOCITY
 
