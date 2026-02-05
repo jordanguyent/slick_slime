@@ -28,8 +28,6 @@ extends CharacterBody2D
 @export var wall_time: float = 1.0
 
 @export_group("Slime Settings")
-@export var target_tile_coords_list: Array[Vector2i] = [Vector2i(1, 0), Vector2i(2, 0), Vector2i(3, 0)] 
-@export var slime_atlas_coords_list: Array[Vector2i] = [Vector2i(1, 3), Vector2i(2, 3), Vector2i(3, 3)]
 @export var source_id: int = 0
 
 
@@ -63,6 +61,7 @@ var tile_map: TileMapLayer:
 	set(value):
 		tile_map = value
 		last_tile_pos = Vector2i(-1, -1)
+var slime_map: TileMapLayer
 
 func _ready() -> void:
 	Game.collected.connect(_collectable_retrieved)
@@ -71,7 +70,7 @@ func _ready() -> void:
 	level_node = get_parent()
 
 func _physics_process(delta: float) -> void:
-	if not tile_map: return
+	if not slime_map: return
 
 	if abs(velocity.x) > SPEED_X_MAX:
 		velocity.x = sign(velocity.x) * SPEED_X_MAX
@@ -98,39 +97,42 @@ func _get_friction_at_feet() -> void:
 	var local_pos = tile_map.to_local(global_position + feet_offset)
 	var tile_pos = tile_map.local_to_map(local_pos)
 	
-	var data = tile_map.get_cell_tile_data(tile_pos)
-
-	if data:
-		friction_coef = data.get_custom_data("friction_coef")
+	if slime_map and slime_map.get_cell_source_id(tile_pos) != -1:
+		friction_coef = 0.1 
 	else:
-		friction_coef = 1.0
+		var data = tile_map.get_cell_tile_data(tile_pos)
+		if data:
+			friction_coef = data.get_custom_data("friction_coef")
+		else:
+			friction_coef = 1.0
 
 func apply_slime_trail() -> void:
-	if not tile_map:
+	if not is_on_floor(): 
+		return
+
+	if not slime_map or not tile_map:
 		return
 
 	var feet_offset = Vector2(0, (collision_shape_original_size.y / 2) + 2)
-	var current_tile_pos = tile_map.local_to_map(tile_map.to_local(global_position + feet_offset))
+	var target_pos = slime_map.local_to_map(slime_map.to_local(global_position + feet_offset))
 
 	if last_tile_pos == Vector2i(-1, -1):
-		last_tile_pos = current_tile_pos
+		last_tile_pos = target_pos
 		return
 
-	if current_tile_pos != last_tile_pos:
-		_process_slime_on_previous_tile(last_tile_pos)
-		last_tile_pos = current_tile_pos
+	if target_pos != last_tile_pos:
+		_place_slime(last_tile_pos)
+		last_tile_pos = target_pos
 
-func _process_slime_on_previous_tile(pos: Vector2i) -> void:
-	if pos == Vector2i(-1, -1):
-		return
+func _place_slime(pos: Vector2i) -> void:
+	if tile_map.get_cell_source_id(pos) != -1 and slime_map.get_cell_source_id(pos) == -1:
+		var random_tile = Vector2i(randi_range(0, 3), randi_range(0, 1))
+		slime_map.set_cell(pos, source_id, random_tile)
+
+func reset_trail_tracking():
+	var feet_offset = Vector2(0, (collision_shape_original_size.y / 2) + 2)
+	last_tile_pos = slime_map.local_to_map(slime_map.to_local(global_position + feet_offset))
 		
-	var atlas_coords = tile_map.get_cell_atlas_coords(pos)
-
-	if atlas_coords in target_tile_coords_list:
-		var index = target_tile_coords_list.find(atlas_coords)
-		var slime_atlas_coords = slime_atlas_coords_list[index]
-		tile_map.set_cell(pos, source_id, slime_atlas_coords)
-
 func _on_body_entered_hurt_box(_body: Node2D) -> void:
 	state_machine.transition_to("DeathState")
 	

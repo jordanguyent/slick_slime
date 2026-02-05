@@ -6,6 +6,7 @@ func enter(_msg: Dictionary = {}) -> void:
 	player.collision_shape.shape.size = player.collision_shape_original_size * 0.5
 	player.collision_shape.position.y += (player.collision_shape_original_size.y / 4)
 	player.anim_state.travel("slide")
+	player.reset_trail_tracking()
 
 func physics_update(delta: float) -> void:
 	player.velocity.x =	move_toward(player.velocity.x, 0, player.FRICTION_SLIDE * player.friction_coef * delta)

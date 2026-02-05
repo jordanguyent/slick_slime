@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://cvwo3nqt4y2xn" path="res://scenes/levels/stages/start_stage.tscn" id="4_6761a"]
 [ext_resource type="PackedScene" uid="uid://basa8xgye5rjx" path="res://entities/player/player.tscn" id="4_x42e6"]
 [ext_resource type="PackedScene" uid="uid://cn2o8quj24wm7" path="res://entities/camera/main_camera.tscn" id="5_6761a"]
+[ext_resource type="PackedScene" uid="uid://cgmjshn5wwj56" path="res://scenes/levels/stages/stage_3.tscn" id="6_s8va5"]
 [ext_resource type="PackedScene" uid="uid://xily4gv672gd" path="res://scenes/levels/stages/stage_1.tscn" id="7_oc4kc"]
 [ext_resource type="PackedScene" uid="uid://q5ed2q8wq5on" path="res://scenes/levels/stages/stage_2.tscn" id="8_s8va5"]
 
@@ -144,10 +145,13 @@ libraries/ = SubResource("AnimationLibrary_s8va5")
 [node name="StartStage" parent="StageGroup" unique_id=850289467 instance=ExtResource("4_6761a")]
 
 [node name="Stage1" parent="StageGroup" unique_id=1325536621 instance=ExtResource("7_oc4kc")]
-position = Vector2(320, 0)
+position = Vector2(1040, 0)
 
 [node name="Stage2" parent="StageGroup" unique_id=1989975172 instance=ExtResource("8_s8va5")]
-position = Vector2(640, 0)
+position = Vector2(1360, 0)
+
+[node name="Stage3" parent="StageGroup" unique_id=772974324 instance=ExtResource("6_s8va5")]
+position = Vector2(2000, 0)
 
 [node name="Player" parent="." unique_id=1060036178 instance=ExtResource("4_x42e6")]
 position = Vector2(64, 138)

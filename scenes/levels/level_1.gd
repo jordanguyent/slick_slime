@@ -28,18 +28,14 @@ func switch_to_stage(index: int) -> void:
 func inject_tilemap_to_player() -> void:
 	var stage = stage_list[current_stage]
 
-	# Reset these to ensure we don't hold old references
-	var found_map: TileMapLayer = null
+	var base_map = stage.find_child("BaseTileLayer", true, false)
+	var slime_map = stage.find_child("SlimeTileLayer", true, false)
 
-	for child in stage.get_children():
-		if child is TileMapLayer:
-			found_map = child
-			break # Stop at the first one found
-
-	if player and found_map:
-		player.tile_map = found_map
-	else:
-		push_warning("Could not find TileMapLayer in stage: ", stage.name)
+	if player:
+		if base_map:
+			player.tile_map = base_map
+		if slime_map:
+			player.slime_map = slime_map
 
 func set_checkpoint(pos: Vector2) -> void:
 	current_spawn_point = pos

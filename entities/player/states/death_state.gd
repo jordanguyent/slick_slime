@@ -5,6 +5,7 @@ var death_timer: float = 0.5 # Reduced because the animation takes time
 func enter(_msg: Dictionary = {}) -> void:
 	player.velocity = Vector2.ZERO
 	player.anim_state.travel("death")
+	player.last_tile_pos = Vector2i(-1, -1)
 	_handle_death_sequence()
 
 func _handle_death_sequence() -> void:

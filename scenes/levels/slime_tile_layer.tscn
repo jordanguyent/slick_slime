@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://d1sdcsj2y7dnm"]
+
+[ext_resource type="Texture2D" uid="uid://c8tn4ody4svna" path="res://assets/SlimeTileset.png" id="1_logww"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_etq8u"]
+texture = ExtResource("1_logww")
+texture_region_size = Vector2i(8, 8)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+3:1/0 = 0
+2:1/0 = 0
+1:1/0 = 0
+0:1/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_8v781"]
+tile_size = Vector2i(8, 8)
+sources/0 = SubResource("TileSetAtlasSource_etq8u")
+
+[node name="SlimeTileLayer" type="TileMapLayer" unique_id=1728631993]
+z_index = 110
+tile_set = SubResource("TileSet_8v781")
