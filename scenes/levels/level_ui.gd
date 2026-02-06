@@ -10,6 +10,11 @@ var is_running: bool = true
 
 func _ready() -> void:
 	player.level_finished.connect(_stop_timer)
+	# 1. Ensure the Rect is actually visible before playing
+	$ColorRect2.show() 
+
+	# 2. Match the name exactly (check for underscores vs spaces!)
+	anim_player2.play("fade_out")
 
 func _process(delta: float):
 	if not is_running:
