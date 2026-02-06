@@ -4,6 +4,7 @@ extends CanvasLayer
 @onready var rich_text_label: RichTextLabel = $Control/MarginContainer/RichTextLabel
 @onready var anim_player: AnimationPlayer = $ColorRect/AnimationPlayer
 @onready var anim_player2: AnimationPlayer = $ColorRect2/AnimationPlayer
+@onready var instructions_label: RichTextLabel = $Control/InstructionsLabel
 var time_elapsed: float = 0.0
 var is_running: bool = true
 
@@ -31,6 +32,17 @@ func _process(delta: float):
 	# Update the RichTextLabel
 	rich_text_label.text = "[font_size=8][color=white]" + time_string + "[/color][/font_size]"
 
+# Only listen for these keys if the game has ended (timer stopped)
+func _input(event: InputEvent) -> void:
+	if is_running:
+		return
+
+	if event.is_action_pressed("ui_restart"):
+		get_tree().reload_current_scene()
+		
+	if event.is_action_pressed("ui_quit"):
+		get_tree().quit()
+
 func _stop_timer():
 	is_running = false
 	show_final_screen()
@@ -45,7 +57,8 @@ func play_enter_transition():
 
 func show_final_screen() -> void:
 	anim_player2.play("fade in")
-	rich_text_label.text = "[center][font_size=24]" + rich_text_label.text + "[/font_size][/center]"
-
-	# var screen_size = get_viewport().get_visible_rect().size
-	# $Control/MarginContainer.set_anchors_and_offsets_preset(Control.PRESET_CENTER, Control.PRESET_MODE_KEEP_SIZE)
+	var raw_time = rich_text_label.get_parsed_text()
+	
+	# 2. Apply the new big styling
+	rich_text_label.text = "[center][font_size=48][color=white]" + raw_time + "[/color][/font_size][/center]"
+	instructions_label.show()
