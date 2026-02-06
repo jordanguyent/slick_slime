@@ -4,6 +4,12 @@ extends Node2D
 @export var follow_speed: float = 150.0
 @export var stop_distance: float = 60.0 
 
+var velocity: Vector2 = Vector2.ZERO
+
+# Adjust these to your liking
+@export var friction: float = 0.92  # Lower is a faster stop (0.8), higher is "ice skating" (0.98)
+@export var acceleration: float = 20.0
+
 var is_following: bool = false
 @onready var prompt = $Prompt
 @onready var anim_player = $AnimationPlayer
@@ -90,21 +96,18 @@ func _process(delta: float) -> void:
 func move_towards_player(delta: float):
 	var target_pos = player_ref.global_position
 	var current_pos = global_position
-
-	# Calculate distance to player
 	var distance = current_pos.distance_to(target_pos)
 
-	# Only move if she is further away than the stop_distance
 	if distance > stop_distance:
 		var direction = (target_pos - current_pos).normalized()
-		global_position += direction * follow_speed * delta
+		var distance_multiplier = clamp(distance / stop_distance, 1.0, 5.0)
+		var pull_strength = acceleration * distance_multiplier
+		velocity += direction * pull_strength
 		
-		# # Animations
-		# if $AnimationPlayer.has_animation("walk"):
-		# 	$AnimationPlayer.play("walk")
-			
-		# Flip sprite to face the player
 		$AnimatedSprite2D.flip_h = direction.x < 0
 	else:
-		if $AnimationPlayer.has_animation("idle"):
-			$AnimationPlayer.play("idle")
+		if $AnimationPlayer.has_animation("fly"):
+			$AnimationPlayer.play("fly")
+
+	velocity *= friction
+	global_position += velocity * delta

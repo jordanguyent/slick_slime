@@ -16,6 +16,22 @@ region = Rect2(32, 32, 32, 32)
 atlas = ExtResource("1_wrdi6")
 region = Rect2(64, 32, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_2gjd6"]
+atlas = ExtResource("1_wrdi6")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_igj63"]
+atlas = ExtResource("1_wrdi6")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a1sso"]
+atlas = ExtResource("1_wrdi6")
+region = Rect2(64, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2337p"]
+atlas = ExtResource("1_wrdi6")
+region = Rect2(96, 64, 32, 32)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_wrdi6"]
 atlas = ExtResource("1_wrdi6")
 region = Rect2(0, 0, 32, 32)
@@ -51,6 +67,23 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2gjd6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_igj63")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a1sso")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2337p")
+}],
+"loop": true,
+"name": &"fly",
 "speed": 5.0
 }, {
 "frames": [{
@@ -279,12 +312,41 @@ tracks/3/keys = {
 "values": [false]
 }
 
+[sub_resource type="Animation" id="Animation_qqqn4"]
+resource_name = "fly"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"fly"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.16666667, 0.3, 0.43333334, 0.53333336, 0.6333333, 0.8333333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 2, 1, 0]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_w3mq3"]
 _data = {
 &"IdleBack": SubResource("Animation_w3mq3"),
 &"IdleFront": SubResource("Animation_qh3ir"),
 &"Jump": SubResource("Animation_aqals"),
-&"RESET": SubResource("Animation_r12nf")
+&"RESET": SubResource("Animation_r12nf"),
+&"fly": SubResource("Animation_qqqn4")
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qh3ir"]

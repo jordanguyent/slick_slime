@@ -40,17 +40,14 @@ position = Vector2(-8, 24)
 position = Vector2(1024, 88)
 rotation = -1.5707964
 
-[node name="SlimeOrb" parent="." unique_id=1049932531 instance=ExtResource("5_34pyx")]
-position = Vector2(952, 88)
-
 [node name="SlimeOrb4" parent="." unique_id=459958319 instance=ExtResource("5_34pyx")]
 position = Vector2(1096, 88)
 
 [node name="SlimeOrb5" parent="." unique_id=595941830 instance=ExtResource("5_34pyx")]
-position = Vector2(960, 184)
+position = Vector2(968, 144)
 
 [node name="GrapplePoint" parent="." unique_id=2054332074 instance=ExtResource("6_1iw83")]
-position = Vector2(1008, 200)
+position = Vector2(1000, 160)
 
 [node name="GrapplePoint2" parent="." unique_id=952564331 instance=ExtResource("6_1iw83")]
 position = Vector2(1144, 64)

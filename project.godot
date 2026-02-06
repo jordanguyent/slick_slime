@@ -28,6 +28,7 @@ DialogueManager="*uid://bpw77aufs8cbj"
 
 window/size/viewport_width=320
 window/size/viewport_height=180
+window/size/mode=2
 window/size/window_width_override=960
 window/size/window_height_override=540
 window/stretch/mode="canvas_items"

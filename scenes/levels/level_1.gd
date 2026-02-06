@@ -42,7 +42,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if DEBUG:
 		if Input.is_action_just_pressed("next_stage"):
-			if current_stage < stage_list.size() - 1:
+			if current_stage < stage_spawn_list.size() - 1:
 				current_stage += 1
 				player.position = stage_spawn_list[current_stage]
 		if Input.is_action_just_pressed("prev_stage"):

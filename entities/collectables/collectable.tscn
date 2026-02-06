@@ -3,16 +3,22 @@
 [ext_resource type="Script" uid="uid://dgx5l8ueay64u" path="res://entities/collectables/collectable.gd" id="1_7ckw4"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xy3q3"]
-radius = 4.0
+radius = 12.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xy3q3"]
 bg_color = Color(0.20642707, 0.6555298, 0.8118875, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.5211406, 0.52114064, 0.5211403, 0.42745098)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
 
 [node name="Collectable" type="Area2D" unique_id=1049932531]
+position = Vector2(4, 4)
 collision_layer = 8
 collision_mask = 2
 script = ExtResource("1_7ckw4")
@@ -21,10 +27,10 @@ script = ExtResource("1_7ckw4")
 shape = SubResource("CircleShape2D_xy3q3")
 
 [node name="Panel" type="Panel" parent="." unique_id=1782801153]
-offset_left = -4.0
-offset_top = -4.0
-offset_right = 4.0
-offset_bottom = 4.0
+offset_left = -6.0
+offset_top = -6.0
+offset_right = 6.0
+offset_bottom = 6.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_xy3q3")
 
 [node name="SpawnTimer" type="Timer" parent="." unique_id=1603516702]
