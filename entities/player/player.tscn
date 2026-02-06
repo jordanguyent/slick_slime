@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://btxfio5od0xtb" path="res://entities/player/states/slide_state.gd" id="10_wvtmh"]
 [ext_resource type="Script" uid="uid://ce458mrm372m7" path="res://entities/player/states/death_state.gd" id="11_7thud"]
 [ext_resource type="Script" uid="uid://bi3itinfvpgud" path="res://entities/player/states/wall_jump_state.gd" id="12_a1qjk"]
+[ext_resource type="Script" uid="uid://bagmfqmkn4c5k" path="res://entities/player/states/dialogue_state.gd" id="13_j3ovn"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wy7bt"]
 atlas = ExtResource("2_wvtmh")
@@ -1486,6 +1487,9 @@ script = ExtResource("11_7thud")
 
 [node name="WallJumpState" type="Node2D" parent="PlayerState" unique_id=1972941223]
 script = ExtResource("12_a1qjk")
+
+[node name="DialogueState" type="Node2D" parent="PlayerState" unique_id=813222096]
+script = ExtResource("13_j3ovn")
 
 [node name="GrappleCast" type="RayCast2D" parent="." unique_id=1169695462]
 position = Vector2(0, -4)

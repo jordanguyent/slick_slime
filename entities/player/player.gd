@@ -40,6 +40,7 @@ class_name Player extends CharacterBody2D
 @onready var anim_tree: AnimationTree = $AnimationTree
 @onready var anim_state = anim_tree.get("parameters/playback")
 @onready var hurt_box: Area2D = $HurtBox
+var is_busy: bool = false
 var level_node: Node2D
 
 var collision_shape_original_size: Vector2
@@ -78,7 +79,10 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if not slime_map: return
 
-	if is_alive:
+	if is_busy:
+		state_machine.transition_to("DialogueState")
+
+	if is_alive and not is_busy:
 		if abs(velocity.x) > SPEED_X_MAX:
 			velocity.x = sign(velocity.x) * SPEED_X_MAX
 		if abs(velocity.y) > SPEED_Y_MAX:
@@ -151,21 +155,36 @@ func _handle_jump_buffer(delta: float) -> void:
 		jump_buffer_timer = JUMP_BUFFER_TIME
 
 func _update_grapple_preview() -> void:
-	
+
 	var mouse_pos = get_local_mouse_position()
-	var target_pos = mouse_pos
+	var is_crouching = Input.is_action_pressed("player_down")
 
-	if mouse_pos.length() > GRAPPLE_RANGE:
-		target_pos = mouse_pos.normalized() * GRAPPLE_RANGE
+	# Always clamp the raycast to the maximum range
+	var target_direction = mouse_pos.normalized()
+	var max_target_pos = target_direction * GRAPPLE_RANGE
 
-	grapple_cast.target_position = target_pos
+	# If the mouse is closer than the max range, use mouse position. 
+	# Otherwise, use the boundary of the circle.
+	if mouse_pos.length() <= GRAPPLE_RANGE:
+		grapple_cast.target_position = mouse_pos
+	else:
+		grapple_cast.target_position = max_target_pos
+
+	if is_crouching and is_on_floor():
+		var slide_assist_angle = deg_to_rad(30) 
+		var slide_dir = Vector2(sign(mouse_pos.x), 0).rotated(slide_assist_angle)
+		max_target_pos = slide_dir * GRAPPLE_RANGE
+
 	grapple_cast.force_raycast_update()
 
+	# Priority 1: Direct Collision (Walls/Tiles)
 	if grapple_cast.is_colliding():
-		preview_point = grapple_cast.get_collision_point().snapped(Vector2(1, 1))
+		preview_point = grapple_cast.get_collision_point()
 	else:
+		# Priority 2: Environmental Anchors (The "Magnetic" feel)
 		preview_point = _get_snapped_anchor_point()
 
+	# Visual feedback for the character
 	if GRAPPLE_COUNT > 0:
 		animated_sprite.modulate = Color(0.2, 0.5, 1.0)
 	else:
@@ -174,9 +193,10 @@ func _update_grapple_preview() -> void:
 	queue_redraw()
 
 func _handle_grapple_input() -> void:
+
 	if Input.is_action_just_pressed("player_grapple") and GRAPPLE_COUNT > 0:
 		if preview_point != null:
-			grapple_point = preview_point.snapped(Vector2(1, 1))
+			grapple_point = preview_point
 			var collider = grapple_cast.get_collider()
 			if collider and collider.has_method("destroy"):
 				collider.destroy()
@@ -239,7 +259,7 @@ func _draw() -> void:
 
 	draw_set_transform(-global_position, 0, Vector2.ONE)
 	if preview_point != null:
-		draw_circle(preview_point, 3.0, Color(1, 1, 1, 0.6))
+		draw_circle(preview_point, 3.0, Color(1, 1, 1, 0.8))
 
 func _collectable_retrieved(collectable: Collectable) -> void:
 	if collectable is SlimeOrb:

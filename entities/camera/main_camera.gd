@@ -3,9 +3,11 @@ extends Camera2D
 @export var target_path: NodePath
 @export var smoothing_speed: float = 8.0
 @export var dead_zone_radius: float = 20.0 
-@export var look_ahead_distance: float = 80.0 
+@export var look_ahead_distance: float = 90.0 
 @export var look_ahead_speed: float = 2.0 
 @export var stage_group_path: NodePath = "/root/Level1/StageGroup"
+@export var return_delay: float = 2 # Seconds to wait before centering
+var stop_timer: float = 0.0
 
 @onready var target = get_node(target_path)
 @onready var stage_group = get_node(stage_group_path)
@@ -15,6 +17,7 @@ signal stage_changed(new_stage_node: Node2D)
 var look_ahead_offset: float = 0.0
 var current_stage: Node2D = null
 var limit_tween: Tween
+var is_cinematic: bool = false
 
 func _process(delta: float) -> void:
 	if not target:
@@ -22,20 +25,31 @@ func _process(delta: float) -> void:
 
 	check_room_transition()
 
-	var move_dir = 0
-	if target.velocity.x > 1:
-		move_dir = 1
-	elif target.velocity.x < -1:
-		move_dir = -1
-
-	# Your look-ahead and lerp logic remains here
-	var target_offset = move_dir * look_ahead_distance
-	look_ahead_offset = lerp(look_ahead_offset, target_offset, look_ahead_speed * delta)
-
 	var final_target = target.global_position
-	final_target.x += look_ahead_offset
 
-	# This is your manual smoothing
+	if not is_cinematic:
+		var move_dir = 0
+		
+		if "velocity" in target:
+			if target.velocity.x > 1: 
+				move_dir = 1
+				stop_timer = return_delay
+			elif target.velocity.x < -1: 
+				move_dir = -1
+				stop_timer = return_delay 
+			else:
+				if stop_timer > 0:
+					stop_timer -= delta
+					move_dir = 1 if look_ahead_offset > 0 else -1
+				else:
+					move_dir = 0
+
+		var target_offset = move_dir * look_ahead_distance
+		look_ahead_offset = lerp(look_ahead_offset, target_offset, look_ahead_speed * delta)
+		final_target.x += look_ahead_offset
+	else:
+		look_ahead_offset = lerp(look_ahead_offset, 0.0, look_ahead_speed * delta)
+
 	global_position = global_position.lerp(final_target, smoothing_speed * delta)
 
 func check_room_transition() -> void:
@@ -81,3 +95,17 @@ func update_limits_from_rect(boundary: ReferenceRect) -> void:
 
 	# Tween the camera's global_position to the player's position in the new room
 	limit_tween.tween_property(self, "global_position", target_pos, 0.8)
+
+func zoom_to(new_target: Node2D, zoom_val: float) -> void:
+	is_cinematic = true
+	target = new_target
+	var tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "zoom", Vector2(zoom_val, zoom_val), 1.0)
+
+func reset_zoom(player_ref: Node2D) -> void:
+	target = player_ref
+	var tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "zoom", Vector2(1.0, 1.0), 1.0)
+	# Wait for the tween to finish before re-enabling look-ahead
+	await tween.finished
+	is_cinematic = false

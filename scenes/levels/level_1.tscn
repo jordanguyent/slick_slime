@@ -21,6 +21,7 @@
 [ext_resource type="PackedScene" uid="uid://c4rgit1rij1ha" path="res://scenes/levels/stages/stage_12.tscn" id="17_v6ha0"]
 [ext_resource type="PackedScene" uid="uid://b40gikmlbmlfb" path="res://scenes/levels/stages/stage_13.tscn" id="18_gmpev"]
 [ext_resource type="PackedScene" uid="uid://bskwtw3cyl6hi" path="res://scenes/levels/stages/stage_14.tscn" id="19_mkypq"]
+[ext_resource type="PackedScene" uid="uid://b3cfqjvxomspr" path="res://entities/npcs/slime_princess.tscn" id="22_ndtll"]
 
 [sub_resource type="Animation" id="Animation_s8va5"]
 length = 0.001
@@ -206,7 +207,7 @@ position = Vector2(5528, 16)
 position = Vector2(4888, 16)
 
 [node name="Player" parent="." unique_id=1060036178 instance=ExtResource("4_x42e6")]
-position = Vector2(64, 138)
+position = Vector2(24, 152)
 
 [node name="MainCamera" parent="." unique_id=1119294936 instance=ExtResource("5_6761a")]
 position = Vector2(160, 89)
@@ -214,3 +215,6 @@ stage_group_path = NodePath("../StageGroup")
 
 [node name="Marker2D" type="Marker2D" parent="." unique_id=1835731412]
 position = Vector2(6600, 248)
+
+[node name="SlimePrincess" parent="." unique_id=1840867848 instance=ExtResource("22_ndtll")]
+position = Vector2(5000, 240)
