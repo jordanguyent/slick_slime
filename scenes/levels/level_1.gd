@@ -23,7 +23,8 @@ var stage_spawn_list: Array = [
 	Vector2(4376.0, -152.0), 	# stage 7
 	Vector2(4048.0, -152.0), 	# stage 7.5
 	Vector2(4400.0, -360.0), 	# stage 8
-	Vector2(4720.0, -360.0)		# stage 9
+	Vector2(4720.0, -360.0),	# stage 9
+	Vector2(5352.0, -296.0) 	# Stage 10
 ]
 
 func _ready() -> void:

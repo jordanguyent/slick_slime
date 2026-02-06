@@ -19,6 +19,7 @@ tile_map_data = PackedByteArray("AAAPABcAAQAFAAUAAAAPABYAAQAFAAoAAAAPABUAAQAFAA4
 tile_set = ExtResource("1_7fe14")
 
 [node name="SlimeTileLayer" parent="." unique_id=1728631993 instance=ExtResource("2_e06a4")]
+tile_map_data = PackedByteArray("AAAEABMAAAABAAAAAAAFABMAAAADAAAAAAAGABMAAAAAAAAAAAAHABMAAAACAAAAAAAIABMAAAADAAAAAAAJABMAAAAAAAAAAAAKABMAAAADAAAAAAALABMAAAADAAEAAAAjAP3/AAAAAAEAAAAkAP3/AAABAAAAAAAlAP3/AAABAAAAAAAmAP3/AAABAAAAAAA=")
 
 [node name="CameraBoundary" type="ReferenceRect" parent="." unique_id=214941732]
 offset_top = -192.0
@@ -42,7 +43,7 @@ position = Vector2(136, 128)
 position = Vector2(248, 64)
 
 [node name="SlimeOrb" parent="." unique_id=1049932531 instance=ExtResource("5_yxwt2")]
-position = Vector2(232, 96)
+position = Vector2(224, 96)
 
 [node name="Checkpoint2" parent="." unique_id=979728889 instance=ExtResource("3_px5vl")]
 position = Vector2(16, -72)

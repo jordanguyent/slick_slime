@@ -19,6 +19,8 @@ func enter(_msg: Dictionary = {}) -> void:
 func physics_update(delta: float) -> void:
 	wall_timer -= delta
 
+	player.move_and_slide()
+
 	if wall_timer < 0 or not player.is_on_wall():
 		state_machine.transition_to("AirState")
 		return
