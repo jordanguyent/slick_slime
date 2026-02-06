@@ -23,6 +23,7 @@ config/icon="res://icon.svg"
 
 Game="*uid://6bjfh6j0sidt"
 DialogueManager="*uid://bpw77aufs8cbj"
+AudioLoader="*uid://1h4gso7qy2u0"
 
 [display]
 
