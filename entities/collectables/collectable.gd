@@ -2,11 +2,15 @@ class_name Collectable extends Area2D
 
 @onready var spawn_timer: Timer = $SpawnTimer
 @onready var panel: Panel = $Panel
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 var spawn_time: float = 3.0
 
 func _ready() -> void:
 	spawn_timer.timeout.connect(_on_timer_timeout)
-	panel.visible = true
+	sprite.animation_finished.connect(_on_animation_finished)
+	panel.visible = false
+	sprite.visible = true
+	sprite.play("idle")
 
 func _physics_process(_delta: float) -> void:
 	if not monitoring:
@@ -20,11 +24,18 @@ func _physics_process(_delta: float) -> void:
 
 func collect_item(_body: Node2D) -> void:
 	Game.collected.emit(self)
-	panel.visible = false
+	panel.visible = true
+	sprite.play("eaten")
 	set_deferred("monitoring", false)
 	spawn_timer.start(spawn_time)
 
 
 func _on_timer_timeout() -> void:
-	panel.visible = true
-	set_deferred("monitoring", true)
+	panel.visible = false
+	spawn_timer.stop()
+	sprite.play("respawn")
+
+func _on_animation_finished() -> void:
+	if sprite.animation == "respawn":
+		sprite.play("idle")
+		set_deferred("monitoring", true) 

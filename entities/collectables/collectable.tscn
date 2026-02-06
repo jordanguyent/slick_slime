@@ -6,12 +6,12 @@
 radius = 12.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xy3q3"]
-bg_color = Color(0.20642707, 0.6555298, 0.8118875, 1)
+bg_color = Color(0.20784314, 0.654902, 0.8117647, 0)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.5211406, 0.52114064, 0.5211403, 0.42745098)
+border_color = Color(1, 1, 1, 0.42352942)
 corner_radius_top_left = 7
 corner_radius_top_right = 7
 corner_radius_bottom_right = 7
@@ -34,3 +34,5 @@ offset_bottom = 6.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_xy3q3")
 
 [node name="SpawnTimer" type="Timer" parent="." unique_id=1603516702]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1407842964]
