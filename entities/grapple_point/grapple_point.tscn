@@ -1,23 +1,67 @@
 [gd_scene format=3 uid="uid://driwrjbetket4"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hkfyt"]
-bg_color = Color(0.58699995, 0.630628, 0.35062137, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+[ext_resource type="Texture2D" uid="uid://b4oq2wl2d313o" path="res://assets/light_ring-Sheet.png" id="1_mxg5i"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_mxg5i"]
-radius = 4.0
+radius = 5.656854
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mxg5i"]
+atlas = ExtResource("1_mxg5i")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t3wb2"]
+atlas = ExtResource("1_mxg5i")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bppwi"]
+atlas = ExtResource("1_mxg5i")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2y1wh"]
+atlas = ExtResource("1_mxg5i")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_faoxv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mxg5i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t3wb2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bppwi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2y1wh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2y1wh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2y1wh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bppwi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t3wb2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mxg5i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mxg5i")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="GrapplePoint" type="StaticBody2D" unique_id=2054332074 groups=["GrappleAnchors"]]
 collision_layer = 256
 collision_mask = 0
-
-[node name="Panel" type="Panel" parent="." unique_id=380967448]
-offset_right = 8.0
-offset_bottom = 8.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_hkfyt")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1572531224]
 position = Vector2(4, 4)
@@ -25,3 +69,9 @@ shape = SubResource("CircleShape2D_mxg5i")
 
 [node name="Marker2D" type="Marker2D" parent="." unique_id=1047966853]
 position = Vector2(4, 4)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=894486708]
+position = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_faoxv")
+autoplay = "default"
+frame_progress = 0.15990044
