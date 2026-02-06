@@ -11,7 +11,7 @@
 size = Vector2(24, 72)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1iw83"]
-size = Vector2(26, 56)
+size = Vector2(24, 56)
 
 [node name="Stage10" type="Node2D" unique_id=2017790426]
 
@@ -59,7 +59,7 @@ position = Vector2(1144, 64)
 position = Vector2(1256, 248)
 
 [node name="CollisionShape2D" parent="Checkpoint" index="0" unique_id=1417215898]
-position = Vector2(3, -28)
+position = Vector2(4, -28)
 shape = SubResource("RectangleShape2D_1iw83")
 
 [editable path="Checkpoint3"]

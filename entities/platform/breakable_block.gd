@@ -24,8 +24,8 @@ func _on_respawn_timer_timeout() -> void:
 			break
 			
 	if space_occupied:
-		if respawn_timer.time_left <= 0.5:
-			respawn_timer.start(0.5)
+		if respawn_timer.time_left <= 1:
+			respawn_timer.start(1)
 		return
 		
 	respawn()

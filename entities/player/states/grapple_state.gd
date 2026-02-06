@@ -9,7 +9,7 @@ var prev_velocity: Vector2
 func enter(msg := {}):
 	if msg.has("point"):
 		prev_velocity = player.velocity
-		player.velocity *= 0
+		player.velocity = Vector2.ZERO
 
 		target_point = msg.point
 		launch_player(target_point)
@@ -19,11 +19,13 @@ func enter(msg := {}):
 func launch_player(target: Vector2):
 	var to_target = target - player.global_position
 	var direction = to_target.normalized()
-	var grapple_speed = player.GRAPPLE_SPEED if player.GRAPPLE_SPEED > prev_velocity.length() else prev_velocity.length()
+	var grapple_speed = max(player.GRAPPLE_SPEED, prev_velocity.length())
 
-	# Apply the massive slingshot velocity
+	# Apply the massive slingshot velocit
 	player.velocity = direction * grapple_speed
 
+	print("Grapple Speed: ", grapple_speed, " Direction: ", direction)
+	
 	# Tell the player to ignore gravity for a moment
 	player.disable_gravity(weightless_duration, post_duration)
 

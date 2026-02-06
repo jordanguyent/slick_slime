@@ -45,7 +45,7 @@ position = Vector2(184, 32)
 position = Vector2(80, 56)
 
 [node name="SlimeOrb2" parent="." unique_id=242632367 instance=ExtResource("5_5bmn5")]
-position = Vector2(80, -64)
+position = Vector2(88, -80)
 
 [node name="Checkpoint2" parent="." unique_id=335917337 instance=ExtResource("3_5bmn5")]
 position = Vector2(304, -56)

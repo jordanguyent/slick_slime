@@ -28,8 +28,8 @@ func physics_update(delta: float):
 	var input_dir = Input.get_axis("player_left", "player_right")
 
 	if not player.gravity_disabled and not player.post_grapple:
-
 		if input_dir != 0:
+			print("here")
 			var is_pushing_same_way = sign(input_dir) == sign(player.velocity.x)
 			
 			if speed_diff > 0 and is_pushing_same_way:
@@ -46,21 +46,16 @@ func physics_update(delta: float):
 		if player.velocity.y > player.TERMINAL_VELOCITY:
 			player.velocity.y = player.TERMINAL_VELOCITY
 
-	else:
-		# Weightless period: You can optionally add a tiny bit of 
-		# vertical air friction so they don't fly UP forever
-		if player.gravity_disabled:
-			player.velocity.y = move_toward(player.velocity.y, 0, 0)
+		# 3. Short Jump Logic (Variable Jump Height)
+		if Input.is_action_just_released("player_jump") and player.velocity.y < player.min_jump_velocity:
+			player.velocity.y = player.min_jump_velocity
 
+	else:
 		if player.post_grapple:
 			player.velocity = player.velocity.move_toward(Vector2.ZERO, player.FRICTION_AIR * 10 * delta)
 
 		if player.is_on_wall():
 			state_machine.transition_to("WallState")
-
-	# 3. Short Jump Logic (Variable Jump Height)
-	if Input.is_action_just_released("player_jump") and player.velocity.y < player.min_jump_velocity:
-		player.velocity.y = player.min_jump_velocity
 
 	player.move_and_slide()
 
