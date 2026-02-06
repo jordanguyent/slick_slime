@@ -69,6 +69,8 @@ var tile_map: TileMapLayer:
 		last_tile_pos = Vector2i(-1, -1)
 var slime_map: TileMapLayer
 var is_alive = true
+var in_dialogue = false
+var dialogue_state = 0
 
 func _ready() -> void:
 	Game.collected.connect(_collectable_retrieved)
@@ -79,9 +81,10 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if not slime_map: return
 
-	if is_busy:
+	if is_busy and not in_dialogue:
 		state_machine.transition_to("DialogueState")
-
+		in_dialogue = true
+		
 	if is_alive and not is_busy:
 		if abs(velocity.x) > SPEED_X_MAX:
 			velocity.x = sign(velocity.x) * SPEED_X_MAX

@@ -12,9 +12,18 @@ var player_ref = null
 var princess_color = Color(1.0, 0.7, 0.8)
 var dialogue = [
 		"Oh! You scared me! Who are you?",
+		"What are you doing out here this far into the woods?",
 		"Not much a talker huh... Nice to meet you... Slicky, that's what I'll call you.",
-		"Well, I'm surprised to see someone out this far in the woods.",
-		"Good news for you, I can fly so don't worry about me."
+		"I figured I'd get some fresh air, since my dad doesn't often let me go outside our home.",
+		"He's worries way too much.",
+		"I suppose that's what dads do.",
+		"But here I am...",
+		"...",
+		"I'm lost...",
+		"Please help me find my home!",
+		"What's that? You can bring me home?",
+		"Great! Not like I gave you much of a choice, haha.",
+		"Good news for you, I can fly alongside you, so don't worry about me being a hinderance."
 	]
 
 var talked_to: bool = false
@@ -26,9 +35,9 @@ func _ready():
 	$TalkArea.body_exited.connect(_on_body_exited)
 
 func _on_body_entered(body):
-	if body is Player and not talked_to:
+	player_ref = body
+	if player_ref.dialogue_state == 1:
 		player_in_range = true
-		player_ref = body
 		prompt.show()
 
 func _on_body_exited(body):
@@ -62,7 +71,7 @@ func run_dialogue_event():
 	camera.reset_zoom(player_ref)
 	player_ref.is_busy = false
 	is_following = true
-	if player_in_range: prompt.show()
+	player_ref.in_dialogue = false
 
 func play_cinematic_jump():
 	var start_y = global_position.y # Save the exact floor position
