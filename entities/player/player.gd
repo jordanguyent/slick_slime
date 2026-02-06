@@ -186,7 +186,7 @@ func _update_grapple_preview() -> void:
 
 	# Visual feedback for the character
 	if GRAPPLE_COUNT > 0:
-		animated_sprite.modulate = Color(0.2, 0.5, 1.0)
+		animated_sprite.modulate = Color(1, 0, 1)
 	else:
 		animated_sprite.modulate = Color.WHITE
 
@@ -247,7 +247,7 @@ func _draw() -> void:
 		draw_line(player_center, local_rope_end, Color(0.5, 1.0, 0.0, 0.7), 1.0)
 		draw_circle(local_rope_end, 2.0, Color(0.8, 0.8, 0.8))
 
-	var circle_color = Color(1, 1, 1, 0.1)
+	var circle_color = Color(1, 1, 1, 0.3)
 	var line_width = 0.5
 	var dash_count = 64 
 	var dash_length = TAU / (dash_count * 2) 
