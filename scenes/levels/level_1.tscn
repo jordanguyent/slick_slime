@@ -18,6 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://cceo030ohp52y" path="res://scenes/levels/stages/stage_9.tscn" id="14_iwr0g"]
 [ext_resource type="PackedScene" uid="uid://w6ubol3ou21o" path="res://scenes/levels/stages/stage_10.tscn" id="15_np2pn"]
 [ext_resource type="PackedScene" uid="uid://bydv6sd301gc4" path="res://scenes/levels/stages/stage_11.tscn" id="16_np2pn"]
+[ext_resource type="PackedScene" uid="uid://c4rgit1rij1ha" path="res://scenes/levels/stages/stage_12.tscn" id="17_v6ha0"]
 
 [sub_resource type="Animation" id="Animation_s8va5"]
 length = 0.001
@@ -193,6 +194,9 @@ position = Vector2(5344, -440)
 [node name="Stage11" parent="StageGroup" unique_id=1023936627 instance=ExtResource("16_np2pn")]
 position = Vector2(6616, -408)
 
+[node name="Stage12" parent="StageGroup" unique_id=287717635 instance=ExtResource("17_v6ha0")]
+position = Vector2(6616, -152)
+
 [node name="Player" parent="." unique_id=1060036178 instance=ExtResource("4_x42e6")]
 position = Vector2(64, 138)
 
@@ -201,4 +205,4 @@ position = Vector2(160, 89)
 stage_group_path = NodePath("../StageGroup")
 
 [node name="Marker2D" type="Marker2D" parent="." unique_id=1835731412]
-position = Vector2(6632, -192)
+position = Vector2(7192, -64)

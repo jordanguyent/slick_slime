@@ -29,7 +29,6 @@ func physics_update(delta: float):
 
 	if not player.gravity_disabled and not player.post_grapple:
 		if input_dir != 0:
-			print("here")
 			var is_pushing_same_way = sign(input_dir) == sign(player.velocity.x)
 			
 			if speed_diff > 0 and is_pushing_same_way:

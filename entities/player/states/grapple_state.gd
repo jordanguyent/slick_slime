@@ -24,8 +24,6 @@ func launch_player(target: Vector2):
 	# Apply the massive slingshot velocit
 	player.velocity = direction * grapple_speed
 
-	print("Grapple Speed: ", grapple_speed, " Direction: ", direction)
-	
 	# Tell the player to ignore gravity for a moment
 	player.disable_gravity(weightless_duration, post_duration)
 
