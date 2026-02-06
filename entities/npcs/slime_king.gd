@@ -2,6 +2,7 @@ extends Node2D
 
 
 @onready var talk_zone: Area2D = $TalkArea
+@onready var area2D: Area2D = $Area2D
 var player_in_range = false
 var player_ref = null
 var king_color = Color("9d54b8")
@@ -26,11 +27,17 @@ var dialogue: Dictionary = {
 
 func _ready():
 	talk_zone.body_entered.connect(_on_body_entered)
+	area2D.area_entered.connect(_on_area_entered)
 
 func _on_body_entered(body: Node2D) -> void:
 	player_ref = body
-	if player_ref.dialogue_state == 0 or player_ref.dialogue_state == 2:
+	if player_ref.dialogue_state == 0:
 		run_dialogue_event()
+
+func _on_area_entered(_area: Area2D) -> void:
+	if player_ref:
+		if player_ref.dialogue_state == 2:
+			run_dialogue_event()
 
 func run_dialogue_event():
 	var camera = get_parent().get_node("MainCamera")

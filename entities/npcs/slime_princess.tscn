@@ -287,6 +287,9 @@ _data = {
 &"RESET": SubResource("Animation_r12nf")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_qh3ir"]
+radius = 9.433981
+
 [node name="SlimePrincess" type="Node2D" unique_id=1056520882]
 script = ExtResource("1_h5odu")
 
@@ -313,3 +316,11 @@ sprite_frames = SubResource("SpriteFrames_2gjd6")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=227210926]
 libraries/ = SubResource("AnimationLibrary_w3mq3")
 autoplay = &"IdleBack"
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1755149923]
+collision_layer = 4096
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=2004608044]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_qh3ir")

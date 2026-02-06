@@ -71,6 +71,8 @@ var slime_map: TileMapLayer
 var is_alive = true
 var in_dialogue = false
 var dialogue_state = 0
+var game_end = false
+signal level_finished()
 
 func _ready() -> void:
 	Game.collected.connect(_collectable_retrieved)
@@ -97,6 +99,11 @@ func _physics_process(delta: float) -> void:
 		_handle_jump_buffer(delta)
 		_update_grapple_preview()
 		_handle_grapple_input()
+
+
+		if dialogue_state == 3 and not game_end:
+			game_end = true
+			level_finished.emit()
 
 func disable_gravity(duration: float, post_duration: float):
 	gravity_disabled = true
