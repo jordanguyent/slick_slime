@@ -3,7 +3,7 @@ extends Camera2D
 @export var target_path: NodePath
 @export var smoothing_speed: float = 8.0
 @export var dead_zone_radius: float = 20.0 
-@export var look_ahead_distance: float = 60.0 
+@export var look_ahead_distance: float = 80.0 
 @export var look_ahead_speed: float = 2.0 
 @export var stage_group_path: NodePath = "/root/Level1/StageGroup"
 
