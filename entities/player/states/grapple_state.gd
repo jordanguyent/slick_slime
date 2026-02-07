@@ -16,7 +16,7 @@ func enter(msg := {}):
 	else:
 		state_machine.transition_to("AirState")
 	var pitch = randf_range(0.8, 1.0) 
-	AudioLoader.play_sfx_2d_attached(player.grapple_sound, player, "Master", true, -5, pitch)
+	AudioLoader.play_sfx_2d_attached(player.grapple_sound, player, "Master", true, -7, pitch)
 
 func launch_player(target: Vector2):
 	var to_target = target - player.global_position

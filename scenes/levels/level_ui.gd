@@ -1,12 +1,16 @@
 extends CanvasLayer
 
 @export var player: Player
+@export var level: Node2D
 @onready var rich_text_label: RichTextLabel = $Control/MarginContainer/RichTextLabel
 @onready var anim_player: AnimationPlayer = $ColorRect/AnimationPlayer
 @onready var anim_player2: AnimationPlayer = $ColorRect2/AnimationPlayer
 @onready var instructions_label: RichTextLabel = $Control/InstructionsLabel
+@onready var stage_label: RichTextLabel = $DebugContainer/RichTextLabel
+@onready var pause_menu: ColorRect = $PauseMenu
 var time_elapsed: float = 0.0
 var is_running: bool = true
+var DEBUG = false
 
 func _ready() -> void:
 	player.level_finished.connect(_stop_timer)
@@ -37,8 +41,20 @@ func _process(delta: float):
 	# Update the RichTextLabel
 	rich_text_label.text = "[font_size=8][color=white]" + time_string + "[/color][/font_size]"
 
+	if DEBUG:
+		var stage_string = "Level 1-" + str(level.current_stage)
+		stage_label.text = "[font_size=8][color=white]" + stage_string + "[/color][/font_size]"
+
 # Only listen for these keys if the game has ended (timer stopped)
 func _input(event: InputEvent) -> void:
+
+	if event.is_action_pressed("enable_debug"):
+		toggle_debug()
+
+	if DEBUG:
+		if event.is_action_pressed("pause_menu"):
+			toggle_menu()
+
 	if is_running:
 		return
 
@@ -67,3 +83,17 @@ func show_final_screen() -> void:
 	# 2. Apply the new big styling
 	rich_text_label.text = "[center][font_size=48][color=white]" + raw_time + "[/color][/font_size][/center]"
 	instructions_label.show()
+
+func toggle_menu() -> void:
+	if pause_menu.visible:
+		pause_menu.visible = false
+	else:
+		pause_menu.visible = true
+
+func toggle_debug() -> void:
+	DEBUG = !DEBUG
+
+	if DEBUG:
+		stage_label.show()
+	else:
+		stage_label.hide()

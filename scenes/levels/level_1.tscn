@@ -29,6 +29,9 @@
 [ext_resource type="PackedScene" uid="uid://bihbg2ohlp2kg" path="res://entities/npcs/slime_king.tscn" id="24_mqh5v"]
 [ext_resource type="Texture2D" uid="uid://c7xxw6y40oqig" path="res://assets/Arrow.png" id="25_t4umt"]
 [ext_resource type="Texture2D" uid="uid://c00yoxvenxmf0" path="res://assets/tutorial2.png" id="27_31oqk"]
+[ext_resource type="Texture2D" uid="uid://cagrobfhclkt2" path="res://assets/quit.png" id="28_4yk0h"]
+[ext_resource type="Texture2D" uid="uid://c3uyiaoeg3n7m" path="res://assets/fullscreen.png" id="28_vmrhw"]
+[ext_resource type="Texture2D" uid="uid://gij66ann3ih2" path="res://assets/controls.png" id="30_cfnpk"]
 [ext_resource type="Texture2D" uid="uid://nytfwfyy4gnl" path="res://assets/tutorial4.png" id="30_t4umt"]
 
 [sub_resource type="Gradient" id="Gradient_7h2jl"]
@@ -223,10 +226,11 @@ position = Vector2(143.00002, 96)
 scale = Vector2(0.67857146, 0.75)
 texture = ExtResource("3_7o3do")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=139656175 node_paths=PackedStringArray("player")]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=139656175 node_paths=PackedStringArray("player", "level")]
 layer = 100
 script = ExtResource("2_6761a")
 player = NodePath("../Player")
+level = NodePath("..")
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=102404378]
 z_index = 10
@@ -287,6 +291,44 @@ color = Color(0, 0, 0, 0)
 libraries/ = SubResource("AnimationLibrary_o7j4k")
 autoplay = &"fade_out"
 
+[node name="DebugContainer" type="MarginContainer" parent="CanvasLayer" unique_id=657974873]
+offset_left = 280.0
+offset_top = 4.0
+offset_right = 320.0
+offset_bottom = 28.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/DebugContainer" unique_id=1375103081]
+layout_mode = 2
+theme_override_constants/outline_size = 1
+bbcode_enabled = true
+
+[node name="PauseMenu" type="ColorRect" parent="CanvasLayer" unique_id=1252567695]
+visible = false
+offset_right = 320.0
+offset_bottom = 184.0
+color = Color(0, 0, 0, 0.7411765)
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PauseMenu" unique_id=1017319683]
+layout_mode = 0
+offset_left = 104.0
+offset_top = 24.0
+offset_right = 232.0
+offset_bottom = 152.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/PauseMenu/MarginContainer" unique_id=521011081]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 8
+text = "CONTROLS
+	Move: 				 WASD
+	Grapple:   			 LMB
+	Fullscreen:   		 P
+	Quit: 					 N
+
+DEBUG
+	Toggle:				 \\
+	Prev Stage:      	 [
+	Next Stage:		 ]"
+
 [node name="GameState" type="Node2D" parent="." unique_id=411245573]
 
 [node name="PlayState" type="Node2D" parent="GameState" unique_id=1223948477]
@@ -343,31 +385,67 @@ position = Vector2(5528, 16)
 [node name="Stage14" parent="StageGroup" unique_id=91215706 instance=ExtResource("19_mkypq")]
 position = Vector2(4888, 16)
 
-[node name="Tutorial1" type="Sprite2D" parent="." unique_id=1923540684]
-position = Vector2(144, 138)
-scale = Vector2(0.6666667, 0.75)
-texture = ExtResource("22_o7j4k")
-
-[node name="Tutorial2" type="Sprite2D" parent="." unique_id=864241728]
-position = Vector2(344, 136)
-scale = Vector2(0.6666662, 0.75)
-texture = ExtResource("27_31oqk")
-
-[node name="Tutorial3" type="Sprite2D" parent="." unique_id=1789350672]
-position = Vector2(1128, 112)
-texture = ExtResource("24_0qwwm")
-
-[node name="Arrow" type="Sprite2D" parent="." unique_id=343087190]
-position = Vector2(1184, 104)
-scale = Vector2(1.5, 1.5)
-texture = ExtResource("25_t4umt")
-
 [node name="MainCamera" parent="." unique_id=1119294936 instance=ExtResource("5_6761a")]
 position = Vector2(160, 89)
 stage_group_path = NodePath("../StageGroup")
 
+[node name="Tutorial" type="Node2D" parent="." unique_id=385360562]
+position = Vector2(144, 138)
+scale = Vector2(0.6666667, 0.75)
+
+[node name="Tutorial1" type="Sprite2D" parent="Tutorial" unique_id=1923540684]
+texture = ExtResource("22_o7j4k")
+
+[node name="Tutorial2" type="Sprite2D" parent="Tutorial" unique_id=864241728]
+position = Vector2(300, -2.6666565)
+scale = Vector2(0.9999993, 1)
+texture = ExtResource("27_31oqk")
+
+[node name="Tutorial3" type="Sprite2D" parent="Tutorial" unique_id=1789350672]
+position = Vector2(1476, -34.666656)
+scale = Vector2(1.5, 1.3333334)
+texture = ExtResource("24_0qwwm")
+
+[node name="Arrow" type="Sprite2D" parent="Tutorial" unique_id=343087190]
+position = Vector2(1560, -45.33333)
+scale = Vector2(2.25, 2)
+texture = ExtResource("25_t4umt")
+
+[node name="Tutorial4" type="Sprite2D" parent="Tutorial" unique_id=2056469470]
+position = Vector2(1980, -13.333328)
+scale = Vector2(1.5, 1.3333334)
+texture = ExtResource("30_t4umt")
+
+[node name="Arrow2" type="Sprite2D" parent="Tutorial" unique_id=494828800]
+position = Vector2(2073.5159, -10.806)
+rotation = 3.1415925
+scale = Vector2(2.094738, 1.842042)
+texture = ExtResource("25_t4umt")
+
+[node name="Arrow3" type="Sprite2D" parent="Tutorial" unique_id=1733292015]
+position = Vector2(2832, -13.333405)
+rotation = 2.4149504
+scale = Vector2(1.4191155, 1.4191155)
+skew = -0.11751163
+texture = ExtResource("25_t4umt")
+
+[node name="Fullscreen" type="Sprite2D" parent="Tutorial" unique_id=2070772835]
+position = Vector2(984, -13.333328)
+scale = Vector2(1.5, 1.3333334)
+texture = ExtResource("28_vmrhw")
+
+[node name="Quit" type="Sprite2D" parent="Tutorial" unique_id=1975215102]
+position = Vector2(1176, -13.333328)
+scale = Vector2(1.5, 1.3333334)
+texture = ExtResource("28_4yk0h")
+
+[node name="Controls" type="Sprite2D" parent="Tutorial" unique_id=1421562856]
+position = Vector2(1080, -98.666664)
+scale = Vector2(1.5, 1.3333334)
+texture = ExtResource("30_cfnpk")
+
 [node name="Marker2D" type="Marker2D" parent="." unique_id=1835731412]
-position = Vector2(6600, 248)
+position = Vector2(1024, 152)
 
 [node name="SlimeKing" parent="." unique_id=1538263212 instance=ExtResource("24_mqh5v")]
 position = Vector2(504, 96)
@@ -377,18 +455,3 @@ position = Vector2(4960, 240)
 
 [node name="Player" parent="." unique_id=1060036178 instance=ExtResource("4_x42e6")]
 position = Vector2(24, 152)
-
-[node name="Tutorial4" type="Sprite2D" parent="." unique_id=2056469470]
-position = Vector2(1464, 128)
-texture = ExtResource("30_t4umt")
-
-[node name="Arrow2" type="Sprite2D" parent="." unique_id=494828800]
-position = Vector2(1526.3439, 129.8955)
-rotation = -3.1415927
-scale = Vector2(1.396492, 1.3815315)
-texture = ExtResource("25_t4umt")
-
-[node name="Arrow3" type="Sprite2D" parent="." unique_id=1733292015]
-position = Vector2(2032, 127.99994)
-rotation = 2.3561945
-texture = ExtResource("25_t4umt")

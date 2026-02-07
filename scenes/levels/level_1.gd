@@ -8,7 +8,7 @@ var current_spawn_point: Vector2
 
 @export var current_stage = 0
 var stage_list: Array
-var DEBUG: bool = true
+var debug_stage = 0
 
 
 var stage_spawn_list: Array = [
@@ -28,6 +28,21 @@ var stage_spawn_list: Array = [
 	Vector2(6632.0, -192.0),	# Stage 11
 	Vector2(7192.0, -64.0),     # Stage 12
 	Vector2(6600.0, 248.0), 	# Stage 13
+	Vector2(5512.0, 128.0),     # Stage 14
+	Vector2(6720.0, 248.0),
+	Vector2(7144.0, -352.0),
+	Vector2(6600.0, -192.0),
+	Vector2(5328.0, -296.0),
+	Vector2(4688.0, -360.0),
+	Vector2(4368.0, -360.0),
+	Vector2(4400.0, -152.0),
+	Vector2(4368.0, 72.0),
+	Vector2(3728.0, 152.0),
+	Vector2(3096.0, 56.0),
+	Vector2(2448.0, 152.0),
+	Vector2(1808.0, 152.0),
+	Vector2(1344.0, 152.0),
+	Vector2(1024.0, 152.0)
 ]
 
 func _ready() -> void:
@@ -40,15 +55,15 @@ func _ready() -> void:
 	inject_tilemap_to_player()
 
 func _process(_delta: float) -> void:
-	if DEBUG:
+	if level_ui.DEBUG:
 		if Input.is_action_just_pressed("next_stage"):
-			if current_stage < stage_spawn_list.size() - 1:
-				current_stage += 1
-				player.position = stage_spawn_list[current_stage]
+			if debug_stage < stage_spawn_list.size() - 1:
+				debug_stage += 1
+				player.position = stage_spawn_list[debug_stage]
 		if Input.is_action_just_pressed("prev_stage"):
-			if current_stage > 0:
-				current_stage -= 1
-				player.position = stage_spawn_list[current_stage]
+			if debug_stage > 0:
+				debug_stage -= 1
+				player.position = stage_spawn_list[debug_stage]
 
 func switch_to_stage(index: int) -> void:
 	if index >= 0 and index < stage_list.size():
