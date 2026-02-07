@@ -269,12 +269,14 @@ text = "
 [node name="InstructionsLabel" type="RichTextLabel" parent="CanvasLayer/Control" unique_id=1022062008]
 visible = false
 layout_mode = 0
-offset_left = 131.0
-offset_top = 127.0
-offset_right = 195.0
-offset_bottom = 161.0
+offset_left = 80.0
+offset_top = 80.0
+offset_right = 240.0
+offset_bottom = 165.0
 theme_override_font_sizes/normal_font_size = 12
-text = "Restart?
+text = "Game by Jordan Nguyen
+
+Restart?
 Y / N"
 fit_content = true
 horizontal_alignment = 1
