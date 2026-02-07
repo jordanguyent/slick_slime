@@ -22,7 +22,7 @@ var dialogue: Dictionary = {
 		"Please accept that satisfaction for accomplishing such a mission."]
 } 
 	
-
+var dailogue_sound = preload("res://sounds/sfx/hohoho.wav")
 
 
 func _ready():
@@ -40,6 +40,7 @@ func _on_area_entered(_area: Area2D) -> void:
 			run_dialogue_event()
 
 func run_dialogue_event():
+	AudioLoader.play_sfx_2d_attached(dailogue_sound, self, "Master", true, 0, 0.6)
 	var camera = get_parent().get_node("MainCamera")
 	
 	# 1. Freeze Player & Zoom Camera

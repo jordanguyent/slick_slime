@@ -34,6 +34,8 @@ var dialogue = [
 
 var talked_to: bool = false
 
+var dailogue_sound = preload("res://sounds/sfx/game_over.wav")
+
 func _ready():
 	prompt.hide()
 	anim_player.play("IdleBack")
@@ -57,6 +59,7 @@ func _input(event):
 		run_dialogue_event()
 
 func run_dialogue_event():
+	AudioLoader.play_sfx_2d_attached(dailogue_sound, self, "Master", true, 0, 1.5)
 	var camera = get_parent().get_node("MainCamera")
 	
 	# 1. Freeze Player & Zoom Camera
