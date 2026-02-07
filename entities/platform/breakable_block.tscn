@@ -113,7 +113,7 @@ position = Vector2(24, 4)
 shape = SubResource("RectangleShape2D_efp6j")
 
 [node name="RespawnTimer" type="Timer" parent="." unique_id=2038993524]
-wait_time = 5.0
+wait_time = 3.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=203391008]
 position = Vector2(24, 8)
