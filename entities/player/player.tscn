@@ -1503,3 +1503,6 @@ libraries/ = SubResource("AnimationLibrary_7thud")
 tree_root = SubResource("AnimationNodeStateMachine_yqrof")
 anim_player = NodePath("../AnimationPlayer")
 parameters/air/blend_position = Vector2(0, -3.1168823)
+
+[node name="EdgeCast" type="RayCast2D" parent="." unique_id=417557985]
+target_position = Vector2(0, 4)

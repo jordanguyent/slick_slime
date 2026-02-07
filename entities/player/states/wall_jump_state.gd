@@ -10,6 +10,7 @@ func enter(msg: Dictionary = {}) -> void:
 	if msg.has("do_wall_jump"):
 		var wall_normal = msg.get("do_wall_jump")
 		player.velocity.x = wall_normal.x * player.SPEED
+	AudioLoader.play_sfx_deferred(player.jump_sound)
 
 func physics_update(delta: float) -> void:
 

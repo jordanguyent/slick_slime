@@ -40,6 +40,7 @@ class_name Player extends CharacterBody2D
 @onready var anim_tree: AnimationTree = $AnimationTree
 @onready var anim_state = anim_tree.get("parameters/playback")
 @onready var hurt_box: Area2D = $HurtBox
+@onready var edge_cast: RayCast2D = $EdgeCast
 var is_busy: bool = false
 var level_node: Node2D
 
@@ -73,6 +74,10 @@ var in_dialogue = false
 var dialogue_state = 0
 var game_end = false
 signal level_finished()
+
+# Sounds
+var grapple_sound = preload("res://sounds/sfx/plorp.wav")
+var jump_sound = preload("res://sounds/sfx/plorp.wav")
 
 func _ready() -> void:
 	Game.collected.connect(_collectable_retrieved)

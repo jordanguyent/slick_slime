@@ -6,6 +6,9 @@ extends StaticBody2D
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 var tween_loops: int = 30
 
+var break_sound = preload("res://sounds/sfx/apple1.wav")
+var respawn_sound = preload("res://sounds/sfx/grass2.wav")
+
 func _ready() -> void:
 	respawn_timer.timeout.connect(_on_respawn_timer_timeout)
 	sprite.animation_finished.connect(_on_animation_finished)
@@ -14,6 +17,7 @@ func _ready() -> void:
 func destroy() -> void:
 	collision_shape.set_deferred("disabled", true)
 	sprite.play("break")
+	AudioLoader.play_sfx_2d_deferred(break_sound, "Master", true, global_position, -4)
 
 	if respawn_timer.is_stopped():
 		respawn_timer.start()
@@ -34,6 +38,7 @@ func _on_respawn_timer_timeout() -> void:
 
 func respawn():
 	sprite.play("respawn")
+	AudioLoader.play_sfx_2d_deferred(respawn_sound, "Master", true, global_position)
 
 func _on_animation_finished() -> void:
 	if sprite.animation == "respawn":

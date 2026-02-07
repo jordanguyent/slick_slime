@@ -28,11 +28,15 @@ func physics_update(delta: float):
 		else:
 			player.velocity.x = move_toward(player.velocity.x, input_dir * current_max_speed, player.ACCELERATION * delta)
 	else:
-		player.velocity.x = move_toward(
-			player.velocity.x, 
-			0, 
-			player.FRICTION * player.friction_coef * delta
-		)
+		if player.edge_cast.is_colliding():
+			player.velocity.x = move_toward(
+				player.velocity.x, 
+				0, 
+				player.FRICTION * player.friction_coef * delta
+			)
+		else:
+			player.velocity.x = 0
+			print("true")
 
 	player.move_and_slide()
 

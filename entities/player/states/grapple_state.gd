@@ -15,6 +15,8 @@ func enter(msg := {}):
 		launch_player(target_point)
 	else:
 		state_machine.transition_to("AirState")
+	
+	AudioLoader.play_sfx_deferred(player.grapple_sound)
 
 func launch_player(target: Vector2):
 	var to_target = target - player.global_position

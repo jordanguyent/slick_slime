@@ -3,6 +3,7 @@ extends State
 func enter(msg := {}):
 	if msg.has("do_jump"):
 		player.velocity.y = player.max_jump_velocity
+		AudioLoader.play_sfx_deferred(player.jump_sound)
 		
 		# SLIME/SLIDE CONSERVATION
 		# Check if we were already moving fast (from a slide or slime)
@@ -20,6 +21,7 @@ func enter(msg := {}):
 					boost = player.SLIDE_BOOST
 
 			player.velocity.x *= boost 
+			
 			
 	player.anim_state.travel("air")
 
