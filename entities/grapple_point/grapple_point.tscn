@@ -74,4 +74,4 @@ position = Vector2(4, 4)
 position = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_faoxv")
 autoplay = "default"
-frame_progress = 0.15990044
+frame_progress = 0.34205735

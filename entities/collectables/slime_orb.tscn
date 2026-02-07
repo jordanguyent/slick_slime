@@ -21,4 +21,5 @@ metadata/_edit_use_anchors_ = true
 [node name="AnimatedSprite2D" parent="." index="3" unique_id=1407842964]
 position = Vector2(4, 4)
 sprite_frames = ExtResource("3_ytc3o")
+animation = &"eaten"
 autoplay = "default"

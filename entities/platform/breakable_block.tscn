@@ -1,17 +1,99 @@
 [gd_scene format=3 uid="uid://c4p03lelsj7yo"]
 
 [ext_resource type="Script" uid="uid://o5wexm0ingbl" path="res://entities/platform/breakable_block.gd" id="1_j5a7y"]
+[ext_resource type="Texture2D" uid="uid://cw5kjfaf00wdu" path="res://assets/breakable_block-Sheet.png" id="2_1js4c"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_efp6j"]
-bg_color = Color(0.6078114, 0.63451463, 1.540184e-06, 1)
+bg_color = Color(0.6, 0.6, 0.6, 0)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.5391378, 0.7632137, 1.1551381e-06, 1)
+border_color = Color(0.44721895, 0.6148891, 0, 0.4117647)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_efp6j"]
 size = Vector2(48, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1js4c"]
+atlas = ExtResource("2_1js4c")
+region = Rect2(0, 32, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hh25d"]
+atlas = ExtResource("2_1js4c")
+region = Rect2(64, 32, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7655l"]
+atlas = ExtResource("2_1js4c")
+region = Rect2(128, 32, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ld6xn"]
+atlas = ExtResource("2_1js4c")
+region = Rect2(192, 32, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lgvtl"]
+atlas = ExtResource("2_1js4c")
+region = Rect2(0, 0, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wqkcl"]
+atlas = ExtResource("2_1js4c")
+region = Rect2(128, 32, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a7ydc"]
+atlas = ExtResource("2_1js4c")
+region = Rect2(64, 32, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_40uep"]
+atlas = ExtResource("2_1js4c")
+region = Rect2(0, 32, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sb0v4"]
+atlas = ExtResource("2_1js4c")
+region = Rect2(0, 0, 64, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hh25d"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1js4c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hh25d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7655l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ld6xn")
+}],
+"loop": false,
+"name": &"break",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lgvtl")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wqkcl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a7ydc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_40uep")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sb0v4")
+}],
+"loop": false,
+"name": &"respawn",
+"speed": 15.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j5a7y"]
 size = Vector2(80, 40)
@@ -32,6 +114,11 @@ shape = SubResource("RectangleShape2D_efp6j")
 
 [node name="RespawnTimer" type="Timer" parent="." unique_id=2038993524]
 wait_time = 5.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=203391008]
+position = Vector2(24, 8)
+sprite_frames = SubResource("SpriteFrames_hh25d")
+autoplay = "default"
 
 [node name="DetectionArea" type="Area2D" parent="." unique_id=451823613]
 

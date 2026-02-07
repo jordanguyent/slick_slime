@@ -24,7 +24,7 @@ class_name Player extends CharacterBody2D
 @export var GRAPPLE_COUNT: int = 1:
 	set(value):
 		GRAPPLE_COUNT = clamp(value, 0, GRAPPLE_COUNT_MAX)
-@export var GRAPPLE_MARGIN: float = 25
+@export var GRAPPLE_MARGIN: float = 20
 @export var wall_time: float = 1.0
 
 @export_group("Slime Settings")
@@ -187,12 +187,16 @@ func _update_grapple_preview() -> void:
 
 	grapple_cast.force_raycast_update()
 
-	# Priority 1: Direct Collision (Walls/Tiles)
-	if grapple_cast.is_colliding():
+	var anchor_point = _get_snapped_anchor_point()
+	
+	if anchor_point != null:
+		preview_point = anchor_point
+	# 2. If no anchor is nearby, check for Walls/Tiles
+	elif grapple_cast.is_colliding():
 		preview_point = grapple_cast.get_collision_point()
+	# 3. Otherwise, no point
 	else:
-		# Priority 2: Environmental Anchors (The "Magnetic" feel)
-		preview_point = _get_snapped_anchor_point()
+		preview_point = null
 
 	# Visual feedback for the character
 	if GRAPPLE_COUNT > 0:
@@ -219,6 +223,7 @@ func _get_snapped_anchor_point():
 	var closest_dist_to_line = GRAPPLE_MARGIN
 
 	var line_start = global_position
+	var mouse_dir = (get_global_mouse_position() - global_position).normalized()
 	var line_end = global_position + (grapple_cast.target_position)
 
 	for anchor in get_tree().get_nodes_in_group("GrappleAnchors"):
@@ -227,9 +232,14 @@ func _get_snapped_anchor_point():
 		var dist_to_player = global_position.distance_to(anchor_pos)
 		if dist_to_player > GRAPPLE_RANGE:
 			continue
+
+		var dir_to_anchor = (anchor_pos - global_position).normalized()
+		var alignment = mouse_dir.dot(dir_to_anchor)
+
+		if alignment < 0.5: 
+			continue
 		
 		var closest_point_on_line = Geometry2D.get_closest_point_to_segment(anchor_pos, line_start, line_end)
-		
 		var dist_to_line = anchor_pos.distance_to(closest_point_on_line)
 
 		if dist_to_line < closest_dist_to_line:

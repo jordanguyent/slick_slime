@@ -3,20 +3,23 @@ extends StaticBody2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 @onready var detection_area: Area2D = $DetectionArea
 @onready var respawn_timer: Timer = $RespawnTimer
-@onready var panel = $Panel
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 var tween_loops: int = 30
 
 func _ready() -> void:
 	respawn_timer.timeout.connect(_on_respawn_timer_timeout)
+	sprite.animation_finished.connect(_on_animation_finished)
+	sprite.play("default")
 
 func destroy() -> void:
 	collision_shape.set_deferred("disabled", true)
-	hide()
+	sprite.play("break")
 
 	if respawn_timer.is_stopped():
 		respawn_timer.start()
 
 func _on_respawn_timer_timeout() -> void:
+	respawn_timer.stop()
 	var space_occupied = false
 	for body in detection_area.get_overlapping_bodies():
 		if body is Player:
@@ -27,12 +30,13 @@ func _on_respawn_timer_timeout() -> void:
 		if respawn_timer.time_left <= 1:
 			respawn_timer.start(1)
 		return
-		
 	respawn()
 
 func respawn():
-	collision_shape.set_deferred("disabled", false)
-	detection_area.set_deferred("monitoring", true)
-	show()
-	panel.modulate = Color.WHITE
-	panel.position = Vector2.ZERO
+	sprite.play("respawn")
+
+func _on_animation_finished() -> void:
+	if sprite.animation == "respawn":
+		sprite.play("default")
+		collision_shape.set_deferred("disabled", false)
+		detection_area.set_deferred("monitoring", true)

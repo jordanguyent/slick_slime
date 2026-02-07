@@ -1,21 +1,104 @@
 [gd_scene format=3 uid="uid://8sif2etjc5e"]
 
 [ext_resource type="Script" uid="uid://bhkjg6sl0siwn" path="res://entities/platform/breakable_platform.gd" id="1_5btdt"]
+[ext_resource type="Texture2D" uid="uid://d4gl6ptlqy7dv" path="res://assets/Breakable_platform-Sheet.png" id="2_517ef"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5btdt"]
-bg_color = Color(0.5061948, 0.30288127, 0.21681789, 1)
+bg_color = Color(0.5058824, 0.3019608, 0.21568628, 0)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
-border_color = Color(0, 0, 0, 1)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
+border_width_bottom = 1
+border_color = Color(0.3647059, 0.5019608, 0.7529412, 0.5058824)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_epodv"]
 size = Vector2(32, 4)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5btdt"]
 size = Vector2(32, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4wp50"]
+atlas = ExtResource("2_517ef")
+region = Rect2(48, 24, 48, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p1f3u"]
+atlas = ExtResource("2_517ef")
+region = Rect2(96, 24, 48, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qva37"]
+atlas = ExtResource("2_517ef")
+region = Rect2(144, 24, 48, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_14xn4"]
+atlas = ExtResource("2_517ef")
+region = Rect2(192, 24, 48, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idkax"]
+atlas = ExtResource("2_517ef")
+region = Rect2(0, 0, 48, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6hjli"]
+atlas = ExtResource("2_517ef")
+region = Rect2(144, 24, 48, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2v6m1"]
+atlas = ExtResource("2_517ef")
+region = Rect2(96, 24, 48, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_imoll"]
+atlas = ExtResource("2_517ef")
+region = Rect2(48, 24, 48, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mbpes"]
+atlas = ExtResource("2_517ef")
+region = Rect2(0, 24, 48, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qruhu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4wp50")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p1f3u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qva37")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_14xn4")
+}],
+"loop": false,
+"name": &"break",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idkax")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6hjli")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2v6m1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_imoll")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mbpes")
+}],
+"loop": false,
+"name": &"respawn",
+"speed": 15.0
+}]
 
 [node name="BreakablePlatform" type="StaticBody2D" unique_id=928913913]
 collision_mask = 2
@@ -47,3 +130,9 @@ shape = SubResource("RectangleShape2D_5btdt")
 [node name="RespawnTimer" type="Timer" parent="." unique_id=364982606]
 wait_time = 3.0
 one_shot = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=130763013]
+position = Vector2(16, 4)
+sprite_frames = SubResource("SpriteFrames_qruhu")
+animation = &"break"
+autoplay = "default"
