@@ -70,7 +70,7 @@ func run_dialogue_event():
 	await play_cinematic_jump()
 
 	# 2. Start Dialogue
-	DialogueManager.start_dialogue(dialogue, princess_color)
+	DialogueManager.start_dialogue(dialogue, princess_color, "Princess")
 	
 	# 3. Wait for finish
 	await DialogueManager.dialogue_finished

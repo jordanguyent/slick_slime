@@ -48,7 +48,7 @@ func run_dialogue_event():
 	camera.zoom_to(self, 1.5)
 
 	# 2. Start Dialogue
-	DialogueManager.start_dialogue(dialogue.get(player_ref.dialogue_state), king_color)
+	DialogueManager.start_dialogue(dialogue.get(player_ref.dialogue_state), king_color, "King")
 	
 	# 3. Wait for finish
 	await DialogueManager.dialogue_finished
