@@ -51,9 +51,8 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("enable_debug"):
 		toggle_debug()
 
-	if DEBUG:
-		if event.is_action_pressed("pause_menu"):
-			toggle_menu()
+	if event.is_action_pressed("pause_menu"):
+		toggle_menu()
 
 	if is_running:
 		return

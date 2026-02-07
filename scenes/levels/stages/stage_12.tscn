@@ -49,7 +49,7 @@ shape = SubResource("RectangleShape2D_7mviu")
 position = Vector2(8, 0)
 
 [node name="GrapplePoint2" parent="." unique_id=511196811 instance=ExtResource("5_7mviu")]
-position = Vector2(520, 344)
+position = Vector2(513, 345)
 
 [node name="BreakablePlatform" parent="." unique_id=928913913 instance=ExtResource("4_u07p5")]
 position = Vector2(320, 368)

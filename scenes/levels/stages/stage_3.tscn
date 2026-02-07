@@ -51,7 +51,7 @@ position = Vector2(232, 120)
 [node name="SlimeOrb3" parent="." unique_id=1050370504 instance=ExtResource("4_68hdi")]
 position = Vector2(464, 48)
 
-[node name="GrapplePoint" parent="." unique_id=2054332074 instance=ExtResource("5_7a6ws")]
+[node name="GrapplePoint" parent="." unique_id=257825648 instance=ExtResource("5_7a6ws")]
 position = Vector2(192, 96)
 
 [node name="GrapplePoint2" parent="." unique_id=1370617139 instance=ExtResource("5_7a6ws")]
