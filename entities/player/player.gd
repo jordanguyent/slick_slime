@@ -76,8 +76,15 @@ var game_end = false
 signal level_finished()
 
 # Sounds
-var grapple_sound = preload("res://sounds/sfx/plorp.wav")
+var grapple_sound = preload("res://sounds/sfx/woosh2.wav")
+var grapple_sound_2 = preload("res://sounds/sfx/woosh3.wav")
 var jump_sound = preload("res://sounds/sfx/plorp.wav")
+var move_sound = preload("res://sounds/sfx/squish.wav")
+var death_sound = preload("res://sounds/sfx/pop.wav")
+var death_sound_2 = preload("res://sounds/sfx/goop.wav")
+var death_sound_3 = preload("res://sounds/sfx/heavy_impact.ogg")
+var death_sound_4 = preload("res://sounds/sfx/popper.wav")
+var slide_sound = preload("res://sounds/sfx/slide.wav")
 
 func _ready() -> void:
 	Game.collected.connect(_collectable_retrieved)

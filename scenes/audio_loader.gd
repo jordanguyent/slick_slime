@@ -53,10 +53,11 @@ func play_sfx_2d(sound: AudioStream, bus = "Master", autoplay = true, position =
 
 ## Plays a 2D sound attached to a moving [param parentNode]. 
 ## The sound will follow the node's position as it moves.
-func play_sfx_2d_attached(sound: AudioStream,  parentNode: Node2D, bus = "Master", autoplay = true, volume_modifier=0.0):
+func play_sfx_2d_attached(sound: AudioStream,  parentNode: Node2D, bus = "Master", autoplay = true, volume_modifier=0.0, pitch_scale = 1.0):
 	var audioPlayer = AudioStreamPlayer2D.new()
 	audioPlayer.stream = sound
 	audioPlayer.autoplay = autoplay
+	audioPlayer.pitch_scale = pitch_scale
 	audioPlayer.finished.connect(audioPlayer.queue_free)
 	audioPlayer.bus = bus
 	audioPlayer.volume_db += volume_modifier

@@ -1,5 +1,15 @@
 extends State
 
+var sound_timer: Timer
+
+func _ready() -> void:
+	sound_timer = Timer.new()
+	add_child(sound_timer)
+
+	sound_timer.wait_time = .5
+	sound_timer.one_shot = false
+	sound_timer.timeout.connect(_on_timer_timeout)
+
 func enter(_msg := {}) -> void:
 	player.coyote_timer = null
 	player.GRAPPLE_COUNT = player.GRAPPLE_COUNT_MAX
@@ -9,6 +19,9 @@ func enter(_msg := {}) -> void:
 		if abs(player.velocity.x) > player.SPEED:
 			var current_speed = abs(player.velocity.x)
 			player.velocity.x = sign(player.velocity.x) * current_speed
+
+	sound_timer.start()
+	_on_timer_timeout()
 
 var direction = Input.get_axis("player_left", "player_right")
 
@@ -61,8 +74,15 @@ func physics_update(delta: float):
 	elif input_dir == 0 and is_equal_approx(player.velocity.x, 0):
 		state_machine.transition_to("IdleState")
 
+func exit() -> void:
+	sound_timer.stop()
+
 func _handle_animation(dir_x: float) -> void:
 	if dir_x > 0:
 		player.animated_sprite.flip_h = false
 	elif dir_x < 0:
 		player.animated_sprite.flip_h = true
+
+func _on_timer_timeout() -> void:
+	var pitch = randf_range(0.7, 1.0) 
+	AudioLoader.play_sfx_2d_attached(player.move_sound, player, "Master", true, -12, pitch)

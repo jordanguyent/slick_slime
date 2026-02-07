@@ -7,6 +7,9 @@ func enter(_msg: Dictionary = {}) -> void:
 	player.anim_state.travel("death")
 	player.last_tile_pos = Vector2i(-1, -1)
 	player.is_alive = false
+	AudioLoader.play_sfx_2d_attached(player.death_sound, player, "Master", true, -4)
+	AudioLoader.play_sfx_2d_attached(player.death_sound_2, player, "Master", true)
+	AudioLoader.play_sfx_2d_attached(player.death_sound_4, player, "Master", true)
 	_handle_death_sequence()
 
 func _handle_death_sequence() -> void:

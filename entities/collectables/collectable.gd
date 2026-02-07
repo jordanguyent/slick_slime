@@ -5,6 +5,9 @@ class_name Collectable extends Area2D
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 var spawn_time: float = 3.0
 
+var break_sound = preload("res://sounds/sfx/glass.wav")
+var respawn_sound = preload("res://sounds/sfx/grass1.wav")
+
 func _ready() -> void:
 	spawn_timer.timeout.connect(_on_timer_timeout)
 	sprite.animation_finished.connect(_on_animation_finished)
@@ -26,6 +29,7 @@ func collect_item(_body: Node2D) -> void:
 	Game.collected.emit(self)
 	panel.visible = true
 	sprite.play("eaten")
+	AudioLoader.play_sfx_2d_deferred(break_sound, "Master", true, global_position)
 	set_deferred("monitoring", false)
 	spawn_timer.start(spawn_time)
 
