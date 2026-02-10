@@ -3,8 +3,8 @@ extends Camera2D
 @export var target_path: NodePath
 @export var smoothing_speed: float = 8.0
 @export var dead_zone_radius: float = 20.0 
-@export var look_ahead_distance: float = 90.0 
-@export var look_ahead_speed: float = 2.0 
+@export var look_ahead_distance: float = 80.0 
+@export var look_ahead_speed: float = 0.5 
 @export var stage_group_path: NodePath = "/root/Level1/StageGroup"
 @export var return_delay: float = 2 # Seconds to wait before centering
 var stop_timer: float = 0.0
@@ -18,6 +18,7 @@ var look_ahead_offset: float = 0.0
 var current_stage: Node2D = null
 var limit_tween: Tween
 var is_cinematic: bool = false
+var move_dir = 0
 
 func _process(delta: float) -> void:
 	if not target:
@@ -28,21 +29,18 @@ func _process(delta: float) -> void:
 	var final_target = target.global_position
 
 	if not is_cinematic:
-		var move_dir = 0
-		
-		if "velocity" in target:
-			if target.velocity.x > 1: 
-				move_dir = 1
-				stop_timer = return_delay
-			elif target.velocity.x < -1: 
-				move_dir = -1
-				stop_timer = return_delay 
+
+		if target.velocity.x > 1: 
+			move_dir = 1
+			stop_timer = return_delay
+		elif target.velocity.x < -1: 
+			move_dir = -1
+			stop_timer = return_delay 
+		else:
+			if stop_timer > 0:
+				stop_timer -= delta
 			else:
-				if stop_timer > 0:
-					stop_timer -= delta
-					move_dir = 1 if look_ahead_offset > 0 else -1
-				else:
-					move_dir = 0
+				move_dir = 0
 
 		var target_offset = move_dir * look_ahead_distance
 		look_ahead_offset = lerp(look_ahead_offset, target_offset, look_ahead_speed * delta)

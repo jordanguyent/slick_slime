@@ -187,10 +187,7 @@ func _update_grapple_preview() -> void:
 
 	# If the mouse is closer than the max range, use mouse position. 
 	# Otherwise, use the boundary of the circle.
-	if mouse_pos.length() <= GRAPPLE_RANGE:
-		grapple_cast.target_position = mouse_pos
-	else:
-		grapple_cast.target_position = max_target_pos
+	grapple_cast.target_position = max_target_pos
 
 	if is_crouching and is_on_floor():
 		var slide_assist_angle = deg_to_rad(30) 
