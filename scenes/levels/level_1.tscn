@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c0ql6m53vfvs7" path="res://scenes/levels/level_1.gd" id="1_bswci"]
 [ext_resource type="Script" uid="uid://ct3jipcs8t3es" path="res://scenes/levels/level_ui.gd" id="2_6761a"]
+[ext_resource type="AudioStream" uid="uid://b3bxi3c1uq7pq" path="res://sounds/sfx/background.wav" id="2_wvtie"]
 [ext_resource type="Texture2D" uid="uid://cs4ovsbwbx4ks" path="res://assets/Title.png" id="3_7o3do"]
 [ext_resource type="PackedScene" uid="uid://cvwo3nqt4y2xn" path="res://scenes/levels/stages/start_stage.tscn" id="4_6761a"]
 [ext_resource type="PackedScene" uid="uid://basa8xgye5rjx" path="res://entities/player/player.tscn" id="4_x42e6"]
@@ -199,6 +200,11 @@ _data = {
 
 [node name="Level1" type="Node2D" unique_id=1437649669]
 script = ExtResource("1_bswci")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=952065490]
+stream = ExtResource("2_wvtie")
+volume_db = -2.0
+autoplay = true
 
 [node name="Panel" type="Panel" parent="." unique_id=780037468]
 z_index = -10
