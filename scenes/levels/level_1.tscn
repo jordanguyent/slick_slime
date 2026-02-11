@@ -228,8 +228,8 @@ tile_map_data = PackedByteArray("AACrASUABgADAAcAAACrASQABgACAAMAAACrASMABgACAAM
 tile_set = ExtResource("23_7h2jl")
 
 [node name="Title" type="Sprite2D" parent="." unique_id=2059369691]
-position = Vector2(143.00002, 96)
-scale = Vector2(0.67857146, 0.75)
+position = Vector2(160, 85)
+scale = Vector2(0.5811039, 0.640625)
 texture = ExtResource("3_7o3do")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=139656175 node_paths=PackedStringArray("player", "level")]
